@@ -1,0 +1,374 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 2 feb. 2022, 18:50:32
+    Author     : ivan
+*/
+
+.hide{
+    display: none !important;
+}
+
+.chat-screen{
+    position: fixed;
+    bottom: 130px;
+    right: 20px;
+    z-index: 9999;
+    max-width: 350px;
+    width: 100%;
+    background: #fff;
+    box-sizing: border-box;
+    border-radius: 15px;
+    box-shadow: 0px 15px 20px rgba(0,0,0,0.1);
+    visibility: hidden;
+}
+.chat-screen.show-chat {
+    -moz-transition: bottom 0.5s linear;
+    -webkit-transition: bottom 0.5s linear;
+    transition: bottom 0.5s linear;
+    visibility: visible;
+    bottom: 120px;
+}
+
+.chat-screen .chat-header{
+    background-image: linear-gradient(to right, #052b99, #0246b1, #0f61c7, #247cdc, #3c97f0);
+    border-radius: 15px 15px 0 0;
+    padding: 15px;
+    display: block;
+}
+
+.chat-screen .chat-header .chat-header-title{
+    display: inline-block;
+    color: #fff;
+    font-size: 15px;
+    width: calc(100%-50px);
+}
+.chat-screen .chat-header .chat-header-option{
+    display: inline-block;
+    width: 85px;
+    color: #fff;
+    font-size: 15px;
+    text-align: right;
+}
+.dropdown-toggle::after{
+    display: none;   
+}
+.chat-screen .chat-header .chat-header-option .dropdown .dropdown-toggle i{
+    color: #fff;
+}
+.chat-screen .chat-header .chat-header-option .dropdown .dropdown-menu i{
+    color: #0A7BE3;
+    margin-right:5px;
+}
+.chat-screen .chat-mail{
+    padding: 30px;
+    display: block;
+}
+.chat-screen .chat-mail input.form-control{
+    border-radius: 30px;
+    border: 1px solid #e1e1e1;
+    color: #3b3f5c;
+    font-size: 15px;
+    padding: 0.55rem 1.25rem;
+}
+.chat-screen .chat-mail input.form-control:focus{
+    box-shadow:none;
+    border: 1px solid #0D90D4;
+}
+.chat-screen .chat-mail .form-select{
+    border-radius: 30px;
+    border: 1px solid #e1e1e1;
+    color: #3b3f5c;
+    font-size: 15px;
+    padding: 0.55rem 1.25rem;
+}
+
+.chat-screen .chat-mail button{
+    background-image: linear-gradient(to right, #052b99, #0246b1, #0f61c7, #247cdc, #3c97f0);
+    border: none;
+    padding: 0.58rem 1.25rem;
+    border-radius: 30px;
+    transition: transform 0.5s ease;
+    width: 100%;
+}
+
+.chat-screen .powered-by{
+    margin-top: 40px;
+    text-align: center;
+    font-size: 12px;
+}
+
+.chat-screen .chat-body{
+    padding: 25px;
+    display: inline-block;
+    min-height: 390px;
+    max-height: 390px;
+    background: #fbfbfb;
+    font-size: 14px;
+    overflow-y: auto
+}
+.chat-screen .chat-body::-webkit-scrollbar{
+    width: 6px;
+}
+.chat-screen .chat-body::-webkit-scrollbar-thumb{
+    background: #ecedee;
+}
+.chat-screen .chat-body .chat-start{
+    border: 1px solid #E9F4FF;
+    width: 150px;
+    border-radius:50px;
+    padding: 6px 10px;
+    margin: 0 auto;
+    text-align: center;
+    margin-bottom: 15px;
+    background: #fff;
+}
+
+.chat-screen .chat-body .chat-bubble{
+    font-size: 12px;
+    padding: 10px 15px;
+    box-shadow: none;
+    display: inline-block;
+    clear: both;
+    margin-bottom: 10px;
+    box-shadow: 0 5px 5px rgba(0,0,0,0.02);
+}
+.chat-screen .chat-body .chat-bubble.tu{
+    background-image: linear-gradient(to right, #052b99, #0246b1, #0f61c7, #247cdc, #3c97f0);
+    color: #fff;
+    border-radius: 0 15px 15px 15px;
+    align-self: flex-start;
+    display: table;
+}
+.chat-screen .chat-body .chat-bubble.el{
+    background-image: linear-gradient(to right, #FFFFFF, #FFFFFF, #FFFFFF, #FFFFFF, #FFFFFF);
+    color: #888ea8;
+    border-radius: 15px 0 15px 15px;
+    float: right;
+    align-self: flex-end;
+    display: table;
+}
+
+.chat-screen .chat-body .chat-bubble .message-time {
+    font-size: 11px;
+    font-weight: lighter;
+    float: right;
+    margin-top: 10px;
+    margin-bottom: -7px;
+}
+
+
+.chat-screen .chat-input{
+    width: 100%;
+    position: relative;
+    margin-bottom: -5px;
+}
+.chat-screen .chat-input input{
+    width: 100%;
+    background: #fff;
+    padding: 15px 70px 15px 15px;
+    border-radius: 0 0 15px 15px;
+    resize: none;
+    border-width: 1px 0 0 0;
+    border-style: solid;
+    border-color: #f8f8f8;
+    color: #7a7a7a;
+    font-weight: normal;
+    font-size: 13px;
+    transition: border-color 0.5s ease;
+}
+
+.chat-screen .chat-input input:focus{
+    color: #212529;
+    background-color: #fff;
+    outline: 0;
+    box-shadow: 0 0 0 0 rgba(0, 0, 0, 0.025);
+}
+
+.chat-screen .chat-input .input-action-icon button i.send-message{
+    color: #2186E1;
+    font-size: 18px
+}
+.chat-screen .chat-input .input-action-icon{
+    width: 61px;
+    white-space: nowrap;
+    position: absolute;
+    z-index: 1;
+    top: 7px;
+    right: 15px;
+    text-align: right;
+}
+.chat-screen .chat-input .input-action-icon button{
+    display: inline-block;
+    margin-left: 5px;
+    cursor: pointer;
+}
+
+.chat-screen .chat-input .input-action-icon button i{
+    height: 17px;
+    width: 17px;
+    color: #a9a9a9;
+}
+.chat-screen .chat-session-end{
+    display: block;
+    width: 100%;
+    padding: 25px;
+}
+.chat-screen .chat-session-end h5{
+    font-size: 17px;
+    text-align: center;
+    font-weight: bold;
+    margin-top: 20px;
+}
+.chat-screen .chat-session-end p{
+    font-size: 14px;
+    text-align: center;
+    margin: 20px 0;
+}
+
+.chat-screen .chat-session-end .rate-me{
+    width: 120px;
+    margin: 40px auto;
+}
+.chat-screen .chat-session-end .rate-me .rate-bubble{
+    display: inline-block;
+    text-align: center;
+    width: 50px;
+}
+.chat-screen .chat-session-end .rate-me .rate-bubble span{
+    height: 50px;
+    width: 50px;
+    text-align: center;
+    display: block;
+    line-height: 46px;
+    cursor: pointer;
+    transition: transform 0.5s ease;
+    margin-bottom: 7px;
+}
+
+.chat-screen .chat-session-end .rate-me .rate-bubble span:hover{
+    transform: scale(1.1);
+    transition: transform 0.5s ease;
+}
+.chat-screen .chat-session-end .rate-me .rate-bubble.great{
+    margin-right: 12px;
+    color: #43cc6c;
+}
+
+.chat-screen .chat-session-end .rate-me .rate-bubble.great span{
+    background: #43cc6c;
+    border-radius: 50px 50px 0 50px;
+}
+.chat-screen .chat-session-end .rate-me .rate-bubble.bad{
+    color: #ef4252;
+}
+.chat-screen .chat-session-end .rate-me .rate-bubble.bad span{
+    background: #ef4252;
+    border-radius: 50px 50px 50px 0;
+}
+.chat-screen .chat-session-end .transcript-chat{
+    display: block;
+    text-align: center;
+    margin-top: 80px;
+    color: #0768f8;
+    text-decoration: none;
+    line-height: 20px;
+}
+.chat-bot-icon{
+    position: fixed;
+    bottom: 60px;
+    right: 20px;
+    height: 50px;
+    width: 50px;
+    background-image: linear-gradient(to right, #052b99, #0246b1, #0f61c7, #247cdc, #3c97f0);
+    z-index: 9999;
+    border-radius: 50px;
+    box-shadow: 0 10px 15px rgba(0,0,0,0.1);
+    text-align: center;
+    line-height: 50px;
+    cursor: pointer;
+    transition: all 0.5s ease;
+}
+
+.chat-bot-icon i{
+    color: #fff;
+    -moz-transition: all 0.5s linear;
+    -webkit-transition: all 0.5s linear;
+    transition: transform 0.5s linear;
+    position: absolute;
+    left: 18px;
+    top: 15px;
+    z-index: -1;
+    font-size: 22px;
+    opacity: 0;
+}
+
+.chat-bot-icon i.animate{
+    -moz-transform: rotate(360deg);
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg);
+    opacity: 1;
+    z-index: 1;
+}
+
+
+
+.spinner {
+    margin: 0;
+    width: 70px;
+    text-align: center;
+}
+
+.spinner > div {
+    width: 10px;
+    height: 10px;
+    border-radius: 100%;
+    display: inline-block;
+    -webkit-animation: sk-bouncedelay 1.4s infinite ease-in-out both;
+    animation: sk-bouncedelay 1.4s infinite ease-in-out both;
+    background-image: linear-gradient(to right, #052b99, #0246b1, #0f61c7, #247cdc, #3c97f0);
+}
+
+.spinner .bounce1 {
+    -webkit-animation-delay: -0.48s;
+    animation-delay: -0.48s;
+}
+
+.spinner .bounce2 {
+    -webkit-animation-delay: -0.32s;
+    animation-delay: -0.32s;
+}
+.spinner .bounce3 {
+    -webkit-animation-delay: -0.16s;
+    animation-delay: -0.16s;
+}
+
+
+@-webkit-keyframes sk-bouncedelay {
+    0%, 80%, 100% {
+        -webkit-transform: scale(0);
+    }
+
+    40% {
+        -webkit-transform: scale(1);
+    }
+}
+
+@keyframes sk-bouncedelay {
+    0%, 80%, 100% {
+        -webkit-transform: scale(0);
+        transform: scale(0);
+    }
+
+    40% {
+        -webkit-transform: scale(1);
+        transform: scale(1);
+    }
+}
+
+.clear {
+    clear: both;
+}
