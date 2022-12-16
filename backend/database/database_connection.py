@@ -148,8 +148,8 @@ class DatabaseConnection:
                 select_query = """SELECT fec_ini_reprog, fec_fin_reprog
                                 FROM programacion_curso a
                                 INNER JOIN reprogramacion_curso b ON b.cod_prog_curso = a.cod_prog_curso
-                                WHERE cod_estado_curso = '{0}' AND cod_curso = '{1}'""".format(estado_curso[0][0],
-                                                                                               cod_curso)
+                                INNER JOIN curso c ON c.cod_curso = a.cod_curso
+                                WHERE nombre_curso = '{0}'""".format(nombre_curso)
                 self.cursor.execute(select_query)
                 reprog_curso = self.cursor.fetchall()
             except (Exception, psycopg2.Error) as error:
@@ -159,7 +159,8 @@ class DatabaseConnection:
                 select_query = """SELECT nro_hrs_dia, dia, hora_inicio, hora_fin
                                 FROM programacion_curso a
                                 INNER JOIN horario_curso b ON b.cod_horario = a.cod_horario
-                                WHERE cod_curso = '{0}'""".format(cod_curso)
+                                INNER JOIN curso c ON c.cod_curso = a.cod_curso
+                                WHERE nombre_curso = '{0}'""".format(nombre_curso)
                 self.cursor.execute(select_query)
                 horario_curso = self.cursor.fetchall()
             except (Exception, psycopg2.Error) as error:
@@ -169,7 +170,8 @@ class DatabaseConnection:
                 select_query = """SELECT nro_orden_curso_en_programa, nombre_programa
                                   FROM curso_en_programa a
                                   INNER JOIN programa b ON b.cod_programa = a.cod_programa
-                                  WHERE cod_curso = '{0}'""".format(cod_curso)
+                                  INNER JOIN curso c ON c.cod_curso = a.cod_curso
+                                  WHERE nombre_curso = '{0}'""".format(nombre_curso)
                 self.cursor.execute(select_query)
                 cur_en_prog = self.cursor.fetchall()
             except (Exception, psycopg2.Error) as error:
@@ -177,26 +179,48 @@ class DatabaseConnection:
                 print(error_msg_cep)
         return programacion_curso, estado_curso, reprog_curso, horario_curso, cur_en_prog
 
-    def get_date_programa(self, cod_programa):
+    def get_date_programa(self, nombre_programa):
         mobile_records = []
         error_msg = ''
         if self.is_valid_connection:
             try:
-                select_query = """SELECT * FROM curso_en_programa WHERE cod_programa ='{0}'""".format(cod_programa)
+                select_query = """SELECT cod_curso FROM curso_en_programa a
+                                  INNER JOIN programa b ON b.cod_programa = a.cod_programa
+                                  WHERE nombre_programa ='{0}' ORDER BY nro_orden_curso_en_programa""".format(nombre_programa)
                 self.cursor.execute(select_query)
                 mobile_records = self.cursor.fetchall()
+                cod_curso = mobile_records[0][0]
             except (Exception, psycopg2.Error) as error:
                 error_msg = 'No se pudo obtener la información de la programación del curso. ' + str(error)
-
-        for i, element in enumerate(mobile_records):
-            if element[1] == 1:
-                new_query1 = """SELECT * FROM curso WHERE cod_curso ='{0}'""".format(element[2])
-                self.cursor.execute(new_query1)
-                records = self.cursor.fetchall()
-                new_query2 = """select * from programacion_curso where cod_curso = '{0}'""".format(records[0][0])
-                self.cursor.execute(new_query2)
+                print(error_msg)
+            try:
+                select_query = """SELECT nombre_curso FROM curso WHERE cod_curso ='{0}'""".format(cod_curso)
+                self.cursor.execute(select_query)
+                nombre_curso = self.cursor.fetchall()[0][0]
+            except (Exception, psycopg2.Error) as error:
+                error_msg = 'No se pudo obtener la información del nombre del curso. ' + str(error)
+                print(error_msg)
+            try:
+                select_query = """select * from programacion_curso where cod_curso = '{0}'""".format(cod_curso)
+                self.cursor.execute(select_query)
                 fecha_curso = self.cursor.fetchall()
-                record = [records[0][1], fecha_curso[0][2], fecha_curso[0][3], fecha_curso[0][4]]
-                return record, error_msg
-            else:
-                return [], ''
+            except (Exception, psycopg2.Error) as error:
+                error_msg = 'No se pudo obtener la fecha del curso. ' + str(error)
+                print(error_msg)
+            return fecha_curso, nombre_curso, error_msg
+
+
+
+
+        # for i, element in enumerate(mobile_records):
+        #     if element[1] == 1:
+        #         new_query1 = """SELECT * FROM curso WHERE cod_curso ='{0}'""".format(element[2])
+        #         self.cursor.execute(new_query1)
+        #         records = self.cursor.fetchall()
+        #         new_query2 = """select * from programacion_curso where cod_curso = '{0}'""".format(records[0][0])
+        #         self.cursor.execute(new_query2)
+        #         fecha_curso = self.cursor.fetchall()
+        #         record = [records[0][1], fecha_curso[0][2], fecha_curso[0][3], fecha_curso[0][4]]
+        #         return record, error_msg
+        #     else:
+        #         return [], ''

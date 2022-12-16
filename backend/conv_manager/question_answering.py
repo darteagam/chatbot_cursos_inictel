@@ -14,7 +14,7 @@ from backend.database.database_connection import DatabaseConnection
 # Funciones estáticas
 # ------------------------------------------------------------------
 def resource_path(relative_path):
-    abs_path = r'C:/Users/darteaga/PycharmProjects/chatbot_cursos_inictel/'
+    abs_path = r'C:/Users/user/PycharmProjects/chatbot_cursos_inictel/'
     # abs_path = r'/var/www/html/chatbot_cursos_inictel/'
     return abs_path + relative_path
 
@@ -43,7 +43,7 @@ def intent_entities_mssg(json_data):
     """
 
     # intent_dict = {'intent': 'informacion_general'}
-    intent_dict = {'intent': 'informacion_precio'}
+    # intent_dict = {'intent': 'informacion_precio'}
     # intent_dict = {'intent': 'inicio_conversacion'}
     # intent_dict = {'intent': 'informacion_pago'}
     # intent_dict = {'intent': 'informacion_inscripcion'}
@@ -52,7 +52,7 @@ def intent_entities_mssg(json_data):
     # intent_dict = {'intent': 'fuera_alcance'}
     # intent_dict = {'intent': 'informacion_inscripcion'}
     # intent_dict = {'intent': 'agradecimiento'}
-    # intent_dict = {'intent': 'informacion_programacion'}
+    intent_dict = {'intent': 'informacion_programacion'}
     # intent_dict = {'intent': 'otros'}
 
 
@@ -61,7 +61,7 @@ def intent_entities_mssg(json_data):
     # entities_dict = {'nombre_curso': 'ADOBE PREMIERE'}
     # entities_dict = {'nombre_curso': 'CCTV DIGITALIZADO'}
     # ---REPROGRAMACION
-    entities_dict = {'nombre_curso': 'INSTALACIÓN Y CONFIGURACIÓN DE LINUX'}
+    # entities_dict = {'nombre_curso': 'INSTALACIÓN Y CONFIGURACIÓN DE LINUX'}
     # entities_dict = {'nombre_curso': 'ATENCIÓN AL CLIENTE I'}
     # entities_dict = {'nombre_curso': 'FUNDAMENTOS DE TELECOMUNICACIONES'}
     # ---
@@ -91,7 +91,7 @@ def intent_entities_mssg(json_data):
     # entities_dict = {'nombre_curso': 'DISEÑO DE SISTEMAS MÓVILES CELULARES'}
     # entities_dict = {'id_modulo': '6', 'nivel_curso': 'Basico', 'modalidad': ''}
     # entities_dict = {'nombre_curso': '', 'nivel_curso': 'Intermedio'}
-    # entities_dict = {}
+    entities_dict = {}
 
     if not json_data:
         rec_received = {'nombre_curso': '', 'nombre_programa': ''}
@@ -130,7 +130,7 @@ def conversation_tree(db_connection, intent_dict, entities_dict, rec_received, d
     intent = list(intent_dict.values())[0]
     entities = list(entities_dict.keys())
 
-    if not data:
+    if data:
         rec_received = data[-1]
 
     if intent == 'informacion_general':
@@ -256,17 +256,14 @@ def conversation_tree(db_connection, intent_dict, entities_dict, rec_received, d
             if ('nombre_curso' in rec_received) or ('nombre_programa' in rec_received):
                 if 'nombre_curso' in rec_received:
                     flg = 10
-                    value, row = db_register_query(rec_received['nombre_curso'], 'curso', 'cod_curso')
-                    programacion_rec, estado_cur, \
-                    reprog_cur, horario_cur, cur_en_prog = db_connection.get_programacion(value)
+                    programacion_rec, estado_cur, reprog_cur, horario_cur, cur_en_prog = \
+                        db_connection.get_programacion(rec_received['nombre_curso'])
                     response1 = answer_template()
                     flg = 0
                     if 'nombre_programa' in rec_received:
                         flg = 11
-
-                        value, row = db_register_query(rec_received['nombre_programa'], 'programa', 'cod_programa')
-                        fec_programa, msg = db_connection.get_date_programa(row[0])
-
+                        fec_programa, nombre_curso, msg = db_connection.get_date_programa(rec_received['nombre_programa'])
+                        row = [nombre_curso, rec_received['nombre_programa']]
                         response2 = answer_template()
                         response = response1 + ' Respecto a tu segunda consulta, ' + response2
                         flg = 0
@@ -1141,49 +1138,49 @@ def answer_template():
 
         # Casos según el estado del curso
         if programacion_rec[0][4] == 1:
-            resp = 'El curso ' + row[1] + ' pertenece al programa ' + cur_en_prog[0][1] + \
+            resp = 'El curso ' + programacion_rec[0][12] + ' pertenece al programa ' + cur_en_prog[0][1] + \
                    ', actualmente se encuentra en la condición de ' + estado_cur[0][1] + \
                    ' teniendo como fecha de inicio el ' + f1.strftime("%d-%m-%y") + \
-                   ' y fecha prevista de culminación el ' + f2.strftime("%d-%m-%y") + '. Además, tiene una duración de ' + str(row[5]) + \
+                   ' y fecha prevista de culminación el ' + f2.strftime("%d-%m-%y") + '. Además, tiene una duración de ' + str(programacion_rec[0][16]) + \
                    ' horas calendarias y su horario corresponde a ' + horario_cur[0][1] + ' de ' + horario_cur[0][2] + \
                    ' a ' + horario_cur[0][3] + ' horas.'
             return resp
         elif programacion_rec[0][4] == 2:
-            resp = 'El curso ' + row[1] + ' pertenece al programa ' + cur_en_prog[0][1] + \
+            resp = 'El curso ' + programacion_rec[0][12] + ' pertenece al programa ' + cur_en_prog[0][1] + \
                    ', actualmente se encuentra ' + estado_cur[0][1] + \
-                   '. Tendrá una duración de ' + str(row[5]) + ' horas calendarias. Se inició el ' + \
+                   '. Tendrá una duración de ' + str(programacion_rec[0][16]) + ' horas calendarias. Se inició el ' + \
                    f1.strftime("%d-%m-%y") + ' y culminará el ' + f2.strftime("%d-%m-%y") + '.'
             return resp
         elif programacion_rec[0][4] == 3:
-            resp = 'El curso ' + row[1] + ' actualmente se encuentra ' + estado_cur[0][1] + \
+            resp = 'El curso ' + programacion_rec[0][12] + ' actualmente se encuentra ' + estado_cur[0][1] + \
                    ' y no tiene nuevas fechas programadas.'
             return resp
         elif programacion_rec[0][4] == 4:
-            resp = 'El curso ' + row[1] + ' se encuentra ' + estado_cur[0][1] + \
+            resp = 'El curso ' + programacion_rec[0][12] + ' se encuentra ' + estado_cur[0][1] + \
                    ' y no se está dictando en la institución.'
             return resp
         elif programacion_rec[0][4] == 5:
-            resp = 'El curso ' + row[1] + ' actualmente se encuentra ' + estado_cur[0][1] + '.'
+            resp = 'El curso ' + programacion_rec[0][12] + ' actualmente se encuentra ' + estado_cur[0][1] + '.'
             return resp
         elif programacion_rec[0][4] == 6:
             try:
-                resp = 'El curso ' + row[1] + ' actualmente se ha ' + estado_cur[0][1] + \
-                        '.' + ' Tendrá una duración de ' + str(row[5]) + \
+                resp = 'El curso ' + programacion_rec[0][12] + ' actualmente se ha ' + estado_cur[0][1] + \
+                        '.' + ' Tendrá una duración de ' + str(programacion_rec[0][16]) + \
                         ' horas calendarias. La nueva fecha de inicio será el ' + reprog_cur[0][0].strftime("%d-%m-%y") + \
                         ' y culminará el ' + reprog_cur[0][1].strftime("%d-%m-%y") + '.'
                 return resp
             finally:
                 pass
         elif programacion_rec[0][4] == 7:
-            resp = 'El curso ' + row[1] + ' actualmente se encuentra ' + estado_cur[0][1] + \
+            resp = 'El curso ' + programacion_rec[0][12] + ' actualmente se encuentra ' + estado_cur[0][1] + \
                    ' y por el momento no se está dictando en la institución.'
             return resp
 
     elif flg == 11:
         # Se responde con la fecha de programación del 1er curso (modulo) del programa
         resp = 'El programa ' + row[1] + ' inicia el ' \
-               + fec_programa[1].strftime("%d-%m-%y") + ' con el primer módulo ' \
-               + fec_programa[0]
+               + fec_programa[0][2].strftime("%d-%m-%y") + ' con el primer módulo ' \
+               + row[0]
         return resp
     elif flg == 12:
         resp = ' '
@@ -1237,7 +1234,7 @@ if __name__ == "__main__":
         register.append(rec)
         with open(resource_path('conversations/register_' + user_name + '.json'), 'w', encoding='utf-8') as file:
             json.dump(register, file, indent=4)
-        # response_final = conversation_tree(intent_dict, entities_dict, rec_received, [])
+        response_final = conversation_tree(db_connection, intent_dict, entities_dict, rec_received, [])
 
     # db_cost_query('costo_curso', 'cod_curso', 7)
     print('response: ', response_final)
