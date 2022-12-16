@@ -87,7 +87,7 @@ class DatabaseConnection:
                 error_msg = 'No se pudo obtener la información del programa. ' + str(error)
         return mobile_records, error_msg
 
-    def get_costo_curso(self, cod_curso):
+    def get_costo_curso(self, nombre_curso):
         mobile_records = []
         error_msg = ''
         if self.is_valid_connection:
@@ -97,14 +97,14 @@ class DatabaseConnection:
                                          FROM costo_curso a
                                          INNER JOIN curso b ON b.cod_curso = a.cod_curso 
                                          INNER JOIN tipo_costo c ON c.cod_tipo_costo = a.cod_tipo_costo                                
-                                         WHERE a.cod_curso = '{0}'""".format(cod_curso)
+                                         WHERE b.nombre_curso = '{0}'""".format(nombre_curso)
                 self.cursor.execute(select_query)
                 mobile_records = self.cursor.fetchall()
             except (Exception, psycopg2.Error) as error:
                 error_msg = 'No se pudo obtener el precio del curso. ' + str(error)
         return mobile_records, error_msg
 
-    def get_costo_programa(self, cod_programa):
+    def get_costo_programa(self, nombre_programa):
         mobile_records = []
         error_msg = ''
         if self.is_valid_connection:
@@ -114,14 +114,14 @@ class DatabaseConnection:
                                          FROM costo_programa a
                                          INNER JOIN programa b ON b.cod_programa = a.cod_programa
                                          INNER JOIN tipo_costo c ON c.cod_tipo_costo = a.cod_tipo_costo
-                                         WHERE a.cod_programa = '{0}'""".format(cod_programa)
+                                         WHERE b.nombre_programa = '{0}'""".format(nombre_programa)
                 self.cursor.execute(select_query)
                 mobile_records = self.cursor.fetchall()
             except (Exception, psycopg2.Error) as error:
                 error_msg = 'No se pudo obtener el precio del programa. ' + str(error)
         return mobile_records, error_msg
 
-    def get_programacion(self, cod_curso):
+    def get_programacion(self, nombre_curso):
         programacion_curso = []
         estado_curso = []
         reprog_curso = []
@@ -129,7 +129,8 @@ class DatabaseConnection:
         cur_en_prog = []
         if self.is_valid_connection:
             try:
-                select_query = """select * from programacion_curso where cod_curso = '{0}'""".format(cod_curso)
+                select_query = """select * from programacion_curso a inner join curso b on b.cod_curso = a.cod_curso 
+                                  where b.nombre_curso = '{0}'""".format(nombre_curso)
                 self.cursor.execute(select_query)
                 programacion_curso = self.cursor.fetchall()
             except (Exception, psycopg2.Error) as error:
