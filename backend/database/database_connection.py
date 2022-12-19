@@ -208,19 +208,3 @@ class DatabaseConnection:
                 error_msg = 'No se pudo obtener la fecha del curso. ' + str(error)
                 print(error_msg)
             return fecha_curso, nombre_curso, error_msg
-
-
-
-
-        # for i, element in enumerate(mobile_records):
-        #     if element[1] == 1:
-        #         new_query1 = """SELECT * FROM curso WHERE cod_curso ='{0}'""".format(element[2])
-        #         self.cursor.execute(new_query1)
-        #         records = self.cursor.fetchall()
-        #         new_query2 = """select * from programacion_curso where cod_curso = '{0}'""".format(records[0][0])
-        #         self.cursor.execute(new_query2)
-        #         fecha_curso = self.cursor.fetchall()
-        #         record = [records[0][1], fecha_curso[0][2], fecha_curso[0][3], fecha_curso[0][4]]
-        #         return record, error_msg
-        #     else:
-        #         return [], ''
