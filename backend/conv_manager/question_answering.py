@@ -8,7 +8,7 @@ import json
 from pathlib import Path
 from datetime import datetime
 from backend.database.database_connection import DatabaseConnection
-
+from ..nlu.inference import nlu_pipeline
 
 # ------------------------------------------------------------------
 # Funciones estáticas
@@ -34,6 +34,7 @@ def get_db_info():
     return database_data
 
 
+
 def intent_entities_mssg(user_mssg):
     """
     Función que realizará la inferencia del mensaje de usuario enviado desde el frontend para la obtención
@@ -41,9 +42,11 @@ def intent_entities_mssg(user_mssg):
     :param None:
     :return: intent, entities
     """
-
+    output_nlu = nlu_pipeline(user_mssg)
     # intent_dict = {'intent': 'informacion_general'}
-    intent_dict = {'intent': 'informacion_precio'}
+    intent_dict = output_nlu["intent"]
+
+    #intent_dict = {'intent': 'informacion_precio'}
     # intent_dict = {'intent': 'inicio_conversacion'}
     # intent_dict = {'intent': 'informacion_pago'}
     # intent_dict = {'intent': 'informacion_inscripcion'}
@@ -58,7 +61,8 @@ def intent_entities_mssg(user_mssg):
     # entities_dict = {'nombre_programa': 'ESPECIALISTA CERTIFICADO EN SOPORTE TÉCNICO DE COMPUTADORAS',
     #                  'nombre_curso': 'LINUX NIVEL USUARIO'}
     # entities_dict = {'nombre_curso': 'ADOBE PREMIERE'}
-    entities_dict = {'nombre_curso': 'CCTV DIGITALIZADO'}
+    entities_dict = intent_dict["entities"]
+    #entities_dict = {'nombre_curso': 'CCTV DIGITALIZADO'}
     # ---REPROGRAMACION
     # entities_dict = {'nombre_curso': 'INSTALACIÓN Y CONFIGURACIÓN DE LINUX'}
     # entities_dict = {'nombre_curso': 'ATENCIÓN AL CLIENTE I'}
