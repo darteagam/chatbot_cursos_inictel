@@ -8,13 +8,15 @@ import json
 from pathlib import Path
 from datetime import datetime
 from backend.database.database_connection import DatabaseConnection
-from ..nlu.inference import nlu_pipeline
+from backend.nlu.inference import nlu_pipeline
+import re
 
 # ------------------------------------------------------------------
 # Funciones estáticas
 # ------------------------------------------------------------------
 def resource_path(relative_path):
-    abs_path = r'C:/Users/user/PycharmProjects/chatbot_cursos_inictel/'
+    abs_path = r'C:/Users/darteaga/PycharmProjects/chatbot_cursos_inictel/'
+    # abs_path = r'C:/Users/user/PycharmProjects/chatbot_cursos_inictel/'
     # abs_path = r'/var/www/html/chatbot_cursos_inictel/'
     return abs_path + relative_path
 
@@ -32,7 +34,6 @@ def get_db_info():
     database_data['host'] = dict_words[2]
     database_data['database'] = dict_words[3]
     return database_data
-
 
 
 def intent_entities_mssg(user_mssg):
@@ -61,7 +62,7 @@ def intent_entities_mssg(user_mssg):
     # entities_dict = {'nombre_programa': 'ESPECIALISTA CERTIFICADO EN SOPORTE TÉCNICO DE COMPUTADORAS',
     #                  'nombre_curso': 'LINUX NIVEL USUARIO'}
     # entities_dict = {'nombre_curso': 'ADOBE PREMIERE'}
-    entities_dict = intent_dict["entities"]
+    entities_dict = dict()
     #entities_dict = {'nombre_curso': 'CCTV DIGITALIZADO'}
     # ---REPROGRAMACION
     # entities_dict = {'nombre_curso': 'INSTALACIÓN Y CONFIGURACIÓN DE LINUX'}
@@ -95,6 +96,22 @@ def intent_entities_mssg(user_mssg):
     # entities_dict = {'id_modulo': '6', 'nivel_curso': 'Basico', 'modalidad': ''}
     # entities_dict = {'nombre_curso': '', 'nivel_curso': 'Intermedio'}
     # entities_dict = {}
+
+    # if output_nlu['entities']:
+    #     keys = []
+    #     for d in output_nlu['entities']:
+    #         if d['entity'] not in keys:
+    #             keys.append(d['entity'])
+    #             entities_dict[d['entity'].lower()] = []
+    #     for d in output_nlu['entities']:
+    #         value = re.sub(r'(\w)( - )(\w)', r'\1-\3', d['value'])
+    #         entities_dict[d['entity'].lower()].append(value)
+
+    if output_nlu['entities']:
+        for d in output_nlu['entities']:
+            value = re.sub(r'(\w)( - )(\w)', r'\1-\3', d['value'])
+            entities_dict[d['entity'].lower()] = value
+
     return intent_dict, entities_dict
 
 
@@ -488,18 +505,14 @@ def conversation_tree(db_connection, intent_dict, entities_dict, rec_received, d
             # Buscando la última intención diferente a "otros" en el registro .json
             intents_chat = []
             for i in data:
-                # print(i)
                 intents_chat.append(i['intent'])
             # intents_chat.append(rec['intent'])
-            # print('Intenciones totales de la plática', intents_chat)
             for w in range(len(intents_chat), 0, -1):
                 if (intents_chat[w - 1] != 'otros') and (intents_chat[w - 1] != 'inicio_conversacion') \
                         and (intents_chat[w - 1] != 'agradecimiento'):
                     different_intent = intents_chat[w - 1]
-                    # print('Reemplazar el intent de rec')
                     # rec['intent'] = last_intent_differentx
                     break
-            print('different_intent: ', different_intent)
 
             if different_intent == 'informacion_general':
                 if len(entities) == 0:
@@ -851,7 +864,7 @@ if __name__ == "__main__":
     # user_name = sys.argv[2]
     # user_msg = sys.argv[3]
     user_name = 'jp'
-    user_mssg = ['']
+    user_mssg = 'Quiero información del curso de ATENCIÓN AL CLIENTE I'
     register = []
     path = Path(resource_path('conversations/register_' + user_name + '.json'))
     if path.is_file():
@@ -860,7 +873,6 @@ if __name__ == "__main__":
         json_data = json.load(json_file)
         # Agregando el nuevo rec al json
         rec_received = json_data[len(json_data) - 1]
-        print('rec_received: ', rec_received)
         intent_dict, entities_dict = intent_entities_mssg(user_mssg)
         rec = dict()
         rec['id'] = len(json_data) + 1
@@ -876,8 +888,7 @@ if __name__ == "__main__":
     else:
         # Crear el json y guardar el rec
         rec_received = {}
-        print('rec_received: ', rec_received)
-        intent_dict, entities_dict = intent_entities_mssg([])
+        intent_dict, entities_dict = intent_entities_mssg(user_mssg)
         rec = dict()
         rec['id'] = 1
         rec['intent'] = intent_dict['intent']
@@ -888,6 +899,5 @@ if __name__ == "__main__":
             json.dump(register, file, indent=4)
         response_final = conversation_tree(db_connection, intent_dict, entities_dict, rec_received, [])
 
-    # db_cost_query('costo_curso', 'cod_curso', 7)
     print('response: ', response_final)
     print('rec: ', rec)

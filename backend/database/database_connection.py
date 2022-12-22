@@ -47,10 +47,8 @@ class DatabaseConnection:
         try:
             self.connection = psycopg2.connect(user=user, password=password, host=host, database=database)
             self.cursor = self.connection.cursor()
-            print('conecto')
             return True, connect_params
         except (Exception, psycopg2.Error):
-            print('error')
             return False, None
 
     def verify_last_connection(self, new_params):
@@ -135,7 +133,6 @@ class DatabaseConnection:
                 programacion_curso = self.cursor.fetchall()
             except (Exception, psycopg2.Error) as error:
                 error_msg_pc = 'No se pudo obtener la información de la programación del curso. ' + str(error)
-                print(error_msg_pc)
             try:
                 select_query = """select * from estado_curso where cod_estado_curso = '{0}'""".format(
                     programacion_curso[0][4])
@@ -143,7 +140,6 @@ class DatabaseConnection:
                 estado_curso = self.cursor.fetchall()
             except (Exception, psycopg2.Error) as error:
                 error_msg_ec = 'No se pudo obtener la información de la programación del curso. ' + str(error)
-                print(error_msg_ec)
             try:
                 select_query = """SELECT fec_ini_reprog, fec_fin_reprog
                                 FROM programacion_curso a
@@ -154,7 +150,6 @@ class DatabaseConnection:
                 reprog_curso = self.cursor.fetchall()
             except (Exception, psycopg2.Error) as error:
                 error_msg_rc = 'No se pudo obtener la información de la programación del curso. ' + str(error)
-                print(error_msg_rc)
             try:
                 select_query = """SELECT nro_hrs_dia, dia, hora_inicio, hora_fin
                                 FROM programacion_curso a
@@ -165,7 +160,6 @@ class DatabaseConnection:
                 horario_curso = self.cursor.fetchall()
             except (Exception, psycopg2.Error) as error:
                 error_msg_hc = 'No se pudo obtener la información de la programación del curso. ' + str(error)
-                print(error_msg_hc)
             try:
                 select_query = """SELECT nro_orden_curso_en_programa, nombre_programa
                                   FROM curso_en_programa a
@@ -176,7 +170,6 @@ class DatabaseConnection:
                 cur_en_prog = self.cursor.fetchall()
             except (Exception, psycopg2.Error) as error:
                 error_msg_cep = 'No se pudo obtener la información de la programación del curso. ' + str(error)
-                print(error_msg_cep)
         return programacion_curso, estado_curso, reprog_curso, horario_curso, cur_en_prog
 
     def get_date_programa(self, nombre_programa):
@@ -192,19 +185,16 @@ class DatabaseConnection:
                 cod_curso = mobile_records[0][0]
             except (Exception, psycopg2.Error) as error:
                 error_msg = 'No se pudo obtener la información de la programación del curso. ' + str(error)
-                print(error_msg)
             try:
                 select_query = """SELECT nombre_curso FROM curso WHERE cod_curso ='{0}'""".format(cod_curso)
                 self.cursor.execute(select_query)
                 nombre_curso = self.cursor.fetchall()[0][0]
             except (Exception, psycopg2.Error) as error:
                 error_msg = 'No se pudo obtener la información del nombre del curso. ' + str(error)
-                print(error_msg)
             try:
                 select_query = """select * from programacion_curso where cod_curso = '{0}'""".format(cod_curso)
                 self.cursor.execute(select_query)
                 fecha_curso = self.cursor.fetchall()
             except (Exception, psycopg2.Error) as error:
                 error_msg = 'No se pudo obtener la fecha del curso. ' + str(error)
-                print(error_msg)
             return fecha_curso, nombre_curso, error_msg

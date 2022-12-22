@@ -1,13 +1,23 @@
-from preprocesing import  pretokenize
-from joint_bert import JointBERT
+from backend.nlu.preprocesing import pretokenize
+from backend.nlu.joint_bert import JointBERT
 from transformers import BertConfig, BertTokenizerFast
 import torch
 import numpy as np
 import torch.nn.functional as F
-from utils import load_pickle_file
-MODEL_PATH = "./model_checkpoint/joint_bert"
+from backend.nlu.utils import load_pickle_file
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+
+
+def resource_path(relative_path):
+    abs_path = r'C:/Users/darteaga/PycharmProjects/chatbot_cursos_inictel/'
+    # abs_path = r'C:/Users/user/PycharmProjects/chatbot_cursos_inictel/'
+    # abs_path = r'/var/www/html/chatbot_cursos_inictel/'
+    return abs_path + relative_path
+
+
+MODEL_PATH = resource_path("backend/nlu/model_checkpoint/joint_bert")
+
 
 def nlu_pipeline(text, model_path = MODEL_PATH):
     ## Load Model
