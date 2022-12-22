@@ -2,6 +2,7 @@
 """
 @author: Daniel Urcia, Daniel Arteaga
 """
+import os
 import sys
 import random
 import json
@@ -10,13 +11,20 @@ from datetime import datetime
 from backend.database.database_connection import DatabaseConnection
 from backend.nlu.inference import nlu_pipeline
 import re
+from dotenv import load_dotenv
+
+
+load_dotenv()
+
+CHATBOT_HOME = os.getenv('CHATBOT_HOME')
 
 
 # ------------------------------------------------------------------
 # Funciones estáticas
 # ------------------------------------------------------------------
 def resource_path(relative_path):
-    abs_path = r'C:/Users/darteaga/PycharmProjects/chatbot_cursos_inictel/'
+    abs_path = CHATBOT_HOME
+    # abs_path = r'C:/Users/darteaga/PycharmProjects/chatbot_cursos_inictel/'
     # abs_path = r'C:/Users/user/PycharmProjects/chatbot_cursos_inictel/'
     # abs_path = r'/var/www/html/chatbot_cursos_inictel/'
     return abs_path + relative_path
@@ -57,7 +65,7 @@ def intent_entities_mssg(user_mssg):
     # intent_dict = {'intent': 'informacion_inscripcion'}
     # intent_dict = {'intent': 'agradecimiento'}
     # intent_dict = {'intent': 'informacion_programacion'}
-    # intent_dict = {'intent': 'otros'}
+    # intent_dict = {'intent': 'otra'}
 
     # entities_dict = {'nombre_programa': 'ESPECIALISTA CERTIFICADO EN SOPORTE TÉCNICO DE COMPUTADORAS',
     #                  'nombre_curso': 'LINUX NIVEL USUARIO'}
@@ -347,7 +355,7 @@ def conversation_tree(db_connection, intent_dict, entities_dict, data):
         flg = 0
         return response, row, cost_rec
 
-    elif intent == 'otros':
+    elif intent == 'otra':
         if rec_received['intent'] == 'informacion_general':
             if len(entities) == 0:
                 flg = 1
@@ -503,13 +511,13 @@ def conversation_tree(db_connection, intent_dict, entities_dict, data):
                     flg = 0
                     return response
         else:
-            # Buscando la última intención diferente a "otros" en el registro .json
+            # Buscando la última intención diferente a "otra" en el registro .json
             intents_chat = []
             for i in data:
                 intents_chat.append(i['intent'])
             # intents_chat.append(rec['intent'])
             for w in range(len(intents_chat), 0, -1):
-                if (intents_chat[w - 1] != 'otros') and (intents_chat[w - 1] != 'inicio_conversacion') \
+                if (intents_chat[w - 1] != 'otra') and (intents_chat[w - 1] != 'inicio_conversacion') \
                         and (intents_chat[w - 1] != 'agradecimiento'):
                     different_intent = intents_chat[w - 1]
                     # rec['intent'] = last_intent_differentx
@@ -843,7 +851,7 @@ def answer_template():
                + row[0]
         return resp
     elif flg == 12:
-        # Estas son las respuestas de la intención "otros"
+        # Estas son las respuestas de la intención "otra"
         response = 'Respuesta de flg=12'
         return response
     elif flg == 13:
@@ -862,10 +870,10 @@ if __name__ == "__main__":
     connect_params = get_db_info()
     db_connection = DatabaseConnection(connect_params)
     # user_id = int(sys.argv[1])
-    # user_name = sys.argv[2]
-    # user_msg = sys.argv[3]
-    user_name = 'jp'
-    user_mssg = 'Cuánto cuesta el curso de INSTALACIÓN Y CONFIGURACIÓN DE LINUX?'
+    user_name = sys.argv[1]
+    user_mssg = sys.argv[2]
+    # user_name = 'jp'
+    # user_mssg = 'Cuánto cuesta el curso de INSTALACIÓN Y CONFIGURACIÓN DE LINUX?'
     register = []
     path = Path(resource_path('conversations/register_' + user_name + '.json'))
     if path.is_file():
@@ -888,7 +896,7 @@ if __name__ == "__main__":
     else:
         # Crear el json y guardar el rec
         intent_dict, entities_dict = intent_entities_mssg(user_mssg)
-        print(intent_dict, entities_dict)
+        # print(intent_dict, entities_dict)
         rec = dict()
         rec['id'] = 1
         rec['intent'] = intent_dict['intent']
@@ -899,5 +907,6 @@ if __name__ == "__main__":
             json.dump(register, file, indent=4)
         response_final = conversation_tree(db_connection, intent_dict, entities_dict, [])
 
-    print('response: ', response_final)
-    print('rec: ', rec)
+    # print('response: ', response_final)
+    print(response_final)
+    # print('rec: ', rec)
