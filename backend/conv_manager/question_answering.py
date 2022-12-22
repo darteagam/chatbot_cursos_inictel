@@ -11,6 +11,7 @@ from backend.database.database_connection import DatabaseConnection
 from backend.nlu.inference import nlu_pipeline
 import re
 
+
 # ------------------------------------------------------------------
 # Funciones estáticas
 # ------------------------------------------------------------------
@@ -25,7 +26,6 @@ def get_db_info():
     database_data = {}
     dict_words = []
     fh = open(resource_path('backend/database/db_info.txt'))
-    # fh = open(resource_path('backend/database/db_info.txt'))
     for line in fh:
         words = line.rstrip().split()
         dict_words.extend(words)
@@ -115,7 +115,7 @@ def intent_entities_mssg(user_mssg):
     return intent_dict, entities_dict
 
 
-def conversation_tree(db_connection, intent_dict, entities_dict, rec_received, data):
+def conversation_tree(db_connection, intent_dict, entities_dict, data):
     """
     Función principal del programa
     :param intent: intención del mensaje de usuario obtenido de la inferencia de la red neuronal
@@ -137,12 +137,13 @@ def conversation_tree(db_connection, intent_dict, entities_dict, rec_received, d
     row = ()    # fila del registro consultado
     cost_rec = []
     programacion_rec = []
-    rec = {'id': ''}
     intent = list(intent_dict.values())[0]
     entities = list(entities_dict.keys())
 
     if data:
         rec_received = data[-1]
+    else:
+        rec_received = {}
 
     if intent == 'informacion_general':
         # Intención informacion_general
@@ -864,22 +865,21 @@ if __name__ == "__main__":
     # user_name = sys.argv[2]
     # user_msg = sys.argv[3]
     user_name = 'jp'
-    user_mssg = 'Quiero información del curso de ATENCIÓN AL CLIENTE I'
+    user_mssg = 'Cuánto cuesta el curso de INSTALACIÓN Y CONFIGURACIÓN DE LINUX?'
     register = []
     path = Path(resource_path('conversations/register_' + user_name + '.json'))
     if path.is_file():
         # Abriendo el archivo JSON para acceder al id
         json_file = open(resource_path('conversations/register_' + user_name + '.json'))
         json_data = json.load(json_file)
-        # Agregando el nuevo rec al json
-        rec_received = json_data[len(json_data) - 1]
         intent_dict, entities_dict = intent_entities_mssg(user_mssg)
+        print(intent_dict, entities_dict)
         rec = dict()
         rec['id'] = len(json_data) + 1
         rec['intent'] = intent_dict['intent']
         for key, value in entities_dict.items():
             rec[key] = value
-        response_final = conversation_tree(db_connection, intent_dict, entities_dict, 'rec_received', json_data)
+        response_final = conversation_tree(db_connection, intent_dict, entities_dict, json_data)
         with open(resource_path('conversations/register_' + user_name + '.json'), "r+", encoding='utf-8') as file:
             data = json.load(file)
             data.append(rec)
@@ -887,8 +887,8 @@ if __name__ == "__main__":
             json.dump(data, file, indent=4)
     else:
         # Crear el json y guardar el rec
-        rec_received = {}
         intent_dict, entities_dict = intent_entities_mssg(user_mssg)
+        print(intent_dict, entities_dict)
         rec = dict()
         rec['id'] = 1
         rec['intent'] = intent_dict['intent']
@@ -897,7 +897,7 @@ if __name__ == "__main__":
         register.append(rec)
         with open(resource_path('conversations/register_' + user_name + '.json'), 'w', encoding='utf-8') as file:
             json.dump(register, file, indent=4)
-        response_final = conversation_tree(db_connection, intent_dict, entities_dict, rec_received, [])
+        response_final = conversation_tree(db_connection, intent_dict, entities_dict, [])
 
     print('response: ', response_final)
     print('rec: ', rec)
