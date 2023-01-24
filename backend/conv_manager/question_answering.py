@@ -10,6 +10,7 @@ from pathlib import Path
 from datetime import datetime
 from backend.database.database_connection import DatabaseConnection
 from backend.nlu.inference import nlu_pipeline
+from backend.nlu.nlu import  NLU
 import re
 from dotenv import load_dotenv
 
@@ -18,7 +19,7 @@ load_dotenv()
 
 CHATBOT_HOME = os.getenv('CHATBOT_HOME')
 
-
+print("CHATBOT_HOME:\n", CHATBOT_HOME)
 # ------------------------------------------------------------------
 # Funciones estáticas
 # ------------------------------------------------------------------
@@ -164,6 +165,7 @@ def conversation_tree(db_connection, intent_dict, entities_dict, data):
             if ('nombre_curso' in entities) or ('nombre_programa' in entities):
                 if 'nombre_curso' in entities:
                     flg = 2
+                    print(entities_dict)
                     record, msg1 = db_connection.get_curso(entities_dict['nombre_curso'])
                     row = record[0]
                     value = row[0]
@@ -865,6 +867,48 @@ def answer_template():
         response = 'Esta es la intencion continuacion'
         return response
 
+
+def chatbot_get_response(user_name, user_mssg):
+    connect_params = get_db_info()
+    db_connection = DatabaseConnection(connect_params)
+    print(db_connection)
+    register = []
+    path = Path(resource_path('conversations/register_' + user_name + '.json'))
+    if path.is_file():
+        # Abriendo el archivo JSON para acceder al id
+        json_file = open(resource_path('conversations/register_' + user_name + '.json'))
+        json_data = json.load(json_file)
+        intent_dict, entities_dict = intent_entities_mssg(user_mssg)
+        print(intent_dict, entities_dict)
+        rec = dict()
+        rec['id'] = len(json_data) + 1
+        rec['intent'] = intent_dict['intent']
+        for key, value in entities_dict.items():
+            rec[key] = value
+        response_final = conversation_tree(db_connection, intent_dict, entities_dict, json_data)
+        with open(resource_path('conversations/register_' + user_name + '.json'), "r+", encoding='utf-8') as file:
+            data = json.load(file)
+            data.append(rec)
+            file.seek(0)
+            json.dump(data, file, indent=4)
+    else:
+        # Crear el json y guardar el rec
+        intent_dict, entities_dict = intent_entities_mssg(user_mssg)
+        # print(intent_dict, entities_dict)intent_entities_mssg
+        rec = dict()
+        rec['id'] = 1
+        rec['intent'] = intent_dict['intent']
+        for key, value in entities_dict.items():
+            rec[key] = value
+        register.append(rec)
+        with open(resource_path('conversations/register_' + user_name + '.json'), 'w', encoding='utf-8') as file:
+            json.dump(register, file, indent=4)
+        response_final = conversation_tree(db_connection, intent_dict, entities_dict, [])
+
+    # print('response: ', response_final)
+    print(response_final)
+
+    return response_final
 
 if __name__ == "__main__":
     connect_params = get_db_info()

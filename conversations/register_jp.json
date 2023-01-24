@@ -1,0 +1,8 @@
+[
+    {
+        "id": 1,
+        "intent": "informacion_precio",
+        "tipo_capacitacion": "curso",
+        "nombre_curso": "INSTALACI\u00d3N Y CONFIGURACI\u00d3N DE LINUX"
+    }
+]
