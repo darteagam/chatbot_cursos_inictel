@@ -10,6 +10,7 @@ from pathlib import Path
 from datetime import datetime
 from backend.database.database_connection import DatabaseConnection
 from backend.nlu.inference import nlu_pipeline
+from backend.nlu.nlu import  NLU
 import re
 from dotenv import load_dotenv
 
@@ -893,7 +894,7 @@ def chatbot_get_response(user_name, user_mssg):
     else:
         # Crear el json y guardar el rec
         intent_dict, entities_dict = intent_entities_mssg(user_mssg)
-        # print(intent_dict, entities_dict)
+        # print(intent_dict, entities_dict)intent_entities_mssg
         rec = dict()
         rec['id'] = 1
         rec['intent'] = intent_dict['intent']

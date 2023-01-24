@@ -1,0 +1,14 @@
+[
+    {
+        "id": 1,
+        "intent": "inicio_conversacion"
+    },
+    {
+        "id": 2,
+        "intent": "inicio_conversacion"
+    },
+    {
+        "id": 3,
+        "intent": "inicio_conversacion"
+    }
+]
