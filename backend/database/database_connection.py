@@ -65,10 +65,12 @@ class DatabaseConnection:
         mobile_records = []
         error_msg = ''
         if self.is_valid_connection:
+            print("Aqui busca")
             try:
-                select_query = """select * from curso where nombre_curso = '{0}'""".format(nombre_curso)
+                select_query = """select * from curso where lower(nombre_curso) = '{0}'""".format(nombre_curso)
                 self.cursor.execute(select_query)
                 mobile_records = self.cursor.fetchall()
+                print(mobile_records)
             except (Exception, psycopg2.Error) as error:
                 error_msg = 'No se pudo obtener la información del curso. ' + str(error)
         return mobile_records, error_msg
