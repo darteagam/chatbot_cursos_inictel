@@ -1,0 +1,36 @@
+[
+    {
+        "id": 1,
+        "intent": "informacion_general",
+        "tipo_capacitacion": "Cursos"
+    },
+    {
+        "id": 2,
+        "intent": "otra"
+    },
+    {
+        "id": 3,
+        "intent": "informacion_general",
+        "tipo_capacitacion": "Cursos"
+    },
+    {
+        "id": 4,
+        "intent": "informacion_general",
+        "tipo_capacitacion": "Cursos"
+    },
+    {
+        "id": 5,
+        "intent": "informacion_general",
+        "tipo_capacitacion": "cursos"
+    },
+    {
+        "id": 6,
+        "intent": "informacion_general",
+        "tipo_capacitacion": "cursos"
+    },
+    {
+        "id": 7,
+        "intent": "informacion_general",
+        "tipo_capacitacion": "cursos"
+    }
+]

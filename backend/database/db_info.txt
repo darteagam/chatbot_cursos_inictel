@@ -1,4 +1,4 @@
 postgres
 Inictel123.
-10.0.114.10
+127.0.0.1
 capacitacion_INICTEL
