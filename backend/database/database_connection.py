@@ -33,7 +33,7 @@ class DatabaseConnection:
                 self.connection = None
         else:
             if self.verify_last_connection(connect_params):
-                self.connection.admin.command('ping')
+                    self.connection.admin.command('ping')
             else:
                 self.is_valid_connection, self.params = self.connect(connect_params)
                 if self.is_valid_connection:

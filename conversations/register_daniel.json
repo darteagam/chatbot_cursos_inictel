@@ -13,5 +13,10 @@
         "id": 3,
         "intent": "informacion_general",
         "tipo_capacitacion": "cursos"
+    },
+    {
+        "id": 4,
+        "intent": "informacion_general",
+        "tipo_capacitacion": "cursos"
     }
 ]

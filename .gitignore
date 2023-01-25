@@ -2,3 +2,7 @@
 backend/nlu/model_checkpoint/
 /backend/conv_manager/.env
 .env
+__pycache__/
+conversations/
+backend/nlu/__pycache__/
+backend/conv_manager/__pycache__/

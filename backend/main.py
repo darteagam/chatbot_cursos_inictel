@@ -9,6 +9,8 @@ from backend.conv_manager.question_answering import conversation_tree
 load_dotenv()
 import re
 
+connect_params = get_db_info()
+db_connection = DatabaseConnection(connect_params)
 
 class CHATBOT:
     def __init__(self):
@@ -93,8 +95,6 @@ class CHATBOT:
         return intent_dict, entities_dict
 
     def get_response(self, user_name, user_mssg):
-        connect_params = get_db_info()
-        db_connection = DatabaseConnection(connect_params)
         register = []
         path = Path(resource_path('conversations/register_' + user_name + '.json'))
         if path.is_file():
