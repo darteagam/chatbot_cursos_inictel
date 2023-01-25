@@ -8,5 +8,10 @@
         "intent": "informacion_general",
         "tipo_capacitacion": "curso",
         "nombre_curso": "cctv digitalizado"
+    },
+    {
+        "id": 3,
+        "intent": "informacion_general",
+        "tipo_capacitacion": "cursos"
     }
 ]

@@ -9,6 +9,9 @@ import psycopg2
 # ------------------------------------------------------------------
 # Clases
 # ------------------------------------------------------------------
+from psycopg2 import OperationalError
+
+
 class DatabaseConnection:
     connection = None
     is_initialized = False
@@ -48,7 +51,9 @@ class DatabaseConnection:
             self.connection = psycopg2.connect(user=user, password=password, host=host, database=database)
             self.cursor = self.connection.cursor()
             return True, connect_params
-        except (Exception, psycopg2.Error):
+        except OperationalError as error:
+            print("DB ERROR IN CONNECTION: \n", error)
+            #print_psycopg2_exception(error)
             return False, None
 
     def verify_last_connection(self, new_params):

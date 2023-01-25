@@ -912,12 +912,14 @@ def chatbot_get_response(user_name, user_mssg):
 
 if __name__ == "__main__":
     connect_params = get_db_info()
+    print(connect_params)
     db_connection = DatabaseConnection(connect_params)
+    print(db_connection)
     # user_id = int(sys.argv[1])
-    user_name = sys.argv[1]
-    user_mssg = sys.argv[2]
-    # user_name = 'jp'
-    # user_mssg = 'Cuánto cuesta el curso de INSTALACIÓN Y CONFIGURACIÓN DE LINUX?'
+    #user_name = #sys.argv[1]
+    #user_mssg = #sys.argv[2]
+    user_name = 'jp'
+    user_mssg = 'Cuánto cuesta el curso de INSTALACIÓN Y CONFIGURACIÓN DE LINUX?'
     register = []
     path = Path(resource_path('conversations/register_' + user_name + '.json'))
     if path.is_file():
