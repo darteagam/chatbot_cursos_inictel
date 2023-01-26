@@ -225,5 +225,24 @@
         "tipo_capacitacion": "programa",
         "nombre_programa": "ESPECIALISTA CERTIFICDO EN LINUX",
         "nombre_programa_match": "especialista certificado en linux"
+    },
+    {
+        "id": 44,
+        "intent": "inicio_conversacion"
+    },
+    {
+        "id": 45,
+        "intent": "informacion_general",
+        "tipo_capacitacion": "cursos"
+    },
+    {
+        "id": 46,
+        "intent": "informacion_general",
+        "nombre_curso": "dise\u00f1o de dat center",
+        "nombre_curso_match": "dise\u00f1o de data center"
+    },
+    {
+        "id": 47,
+        "intent": "informacion_precio"
     }
 ]
