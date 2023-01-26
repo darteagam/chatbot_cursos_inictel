@@ -85,85 +85,124 @@
     {
         "id": 15,
         "intent": "informacion_precio",
-        "tipo_capacitacion": "programa",
-        "nombre_programa": "ESPECIALISTA CERTIFICDO EN LINUX",
-        "nombre_programa_match": "especialista certificado en linux"
+        "tipo_capacitacion": "curso",
+        "nombre_curso": "INSTALACI\u00d3N Y CONFIGURACI\u00d3N DE LINUX"
+    },
+    {
+        "id": 2,
+        "intent": "informacion_precio",
+        "tipo_capacitacion": "curso",
+        "nombre_curso": "INSTALACI\u00d3N Y CONFIGURACI\u00d3N DE LINUX"
+    },
+    {
+        "id": 3,
+        "intent": "informacion_precio",
+        "tipo_capacitacion": "curso",
+        "nombre_curso": "INSTALACI\u00d3N Y CONFIGURACI\u00d3N DE LINUX"
+    },
+    {
+        "id": 4,
+        "intent": "informacion_precio",
+        "tipo_capacitacion": "curso",
+        "nombre_curso": "INSTALACI\u00d3N Y CONFIGURACI\u00d3N DE LINUX"
+    },
+    {
+        "id": 5,
+        "intent": "informacion_precio",
+        "tipo_capacitacion": "curso",
+        "nombre_curso": "INSTALACI\u00d3N Y CONFIGURACI\u00d3N DE LINUX"
+    },
+    {
+        "id": 6,
+        "intent": "informacion_precio",
+        "tipo_capacitacion": "curso",
+        "nombre_curso": "INSTALACI\u00d3N Y CONFIGURACI\u00d3N DE LINUX"
+    },
+    {
+        "id": 7,
+        "intent": "informacion_precio",
+        "tipo_capacitacion": "curso",
+        "nombre_curso": "INSTALACI\u00d3N Y CONFIGURACI\u00d3N DE LINUX"
+    },
+    {
+        "id": 8,
+        "intent": "informacion_programacion",
+        "tipo_capacitacion": "curso"
+    },
+    {
+        "id": 9,
+        "intent": "otra",
+        "tipo_capacitacion": "curso"
+    },
+    {
+        "id": 10,
+        "intent": "otra",
+        "tipo_capacitacion": "curso"
+    },
+    {
+        "id": 11,
+        "intent": "informacion_programacion",
+        "tipo_capacitacion": "curso"
+    },
+    {
+        "id": 12,
+        "intent": "informacion_general"
+    },
+    {
+        "id": 13,
+        "intent": "informacion_general"
+    },
+    {
+        "id": 14,
+        "intent": "informacion_general",
+        "tipo_capacitacion": "curso"
+    },
+    {
+        "id": 15,
+        "intent": "informacion_programacion"
     },
     {
         "id": 16,
-        "intent": "informacion_precio",
-        "tipo_capacitacion": "programa",
-        "nombre_programa": "ESPECIALISTA CERTIFICDO EN LINUX",
-        "nombre_programa_match": "especialista certificado en linux"
+        "intent": "informacion_general"
     },
     {
         "id": 17,
-        "intent": "inicio_conversacion"
+        "intent": "informacion_general"
     },
     {
         "id": 18,
+        "intent": "informacion_general"
+    },
+    {
+        "id": 19,
+        "intent": "informacion_general"
+    },
+    {
+        "id": 20,
+        "intent": "informacion_pago"
+    },
+    {
+        "id": 21,
+        "intent": "informacion_pago"
+    },
+    {
+        "id": 22,
+        "intent": "informacion_inscripcion"
+    },
+    {
+        "id": 37,
+        "intent": "inicio_conversacion"
+    },
+    {
+        "id": 38,
         "intent": "informacion_general",
         "nombre_curso": "dise\u00f1o de dat center",
         "nombre_curso_match": "dise\u00f1o de data center"
     },
     {
-        "id": 19,
-        "intent": "informacion_precio"
-    },
-    {
-        "id": 20,
-        "intent": "informacion_precio",
-        "tipo_capacitacion": "programa",
-        "nombre_programa": "ESPECIALISTA CERTIFICDO EN LINUX",
-        "nombre_programa_match": "especialista certificado en linux"
-    },
-    {
-        "id": 21,
-        "intent": "informacion_programacion",
-        "tipo_capacitacion": "curso",
-        "nombre_curso": "comunicaciones m\u00f3viles",
-        "nombre_curso_match": "comunicaciones m\u00f3viles"
-    },
-    {
-        "id": 22,
-        "intent": "informacion_programacion",
-        "tipo_capacitacion": "curso",
-        "nombre_curso": "comunicaciones m\u00f3viles",
-        "nombre_curso_match": "comunicaciones m\u00f3viles"
-    },
-    {
-        "id": 23,
-        "intent": "informacion_programacion",
-        "tipo_capacitacion": "curso",
-        "nombre_curso": "comunicaiones m\u00f3viles",
-        "nombre_curso_match": "comunicaciones m\u00f3viles"
-    },
-    {
-        "id": 24,
+        "id": 39,
         "intent": "informacion_general",
-        "tipo_capacitacion": "curso",
-        "nombre_curso": "comnicaiones m\u00f3viles",
-        "nombre_curso_match": "comunicaciones m\u00f3viles"
-    },
-    {
-        "id": 25,
-        "intent": "informacion_programacion",
-        "tipo_capacitacion": "curso",
-        "nombre_curso": "comunicaiones m\u00f3viles",
-        "nombre_curso_match": "comunicaciones m\u00f3viles"
-    },
-    {
-        "id": 26,
-        "intent": "informacion_programacion",
-        "tipo_capacitacion": "curso",
-        "nombre_curso": "comunicaiones m\u00f3viles",
-        "nombre_curso_match": "comunicaciones m\u00f3viles"
-    },
-    {
-        "id": 27,
-        "intent": "informacion_programacion",
-        "tipo_capacitacion": "curso",
-        "nombre_curso": "comunicaiones m\u00f3viles",
-        "nombre_curso_match": "comunicaciones m\u00f3viles"
+        "nombre_curso": "dise\u00f1o de dat center",
+        "nombre_curso_match": "dise\u00f1o de data center"
     }
 ]
