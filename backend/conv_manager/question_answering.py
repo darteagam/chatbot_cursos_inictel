@@ -346,12 +346,14 @@ def conversation_tree(db_connection, intent_dict, entities_dict, data):
                     response = answer_template(1)
                     return response
         elif rec_received['intent'] == 'informacion_precio':
+            # print('Dann')
             if len(entities) == 0:
-                if ('nombre_curso_match' in rec_received) or ('nombre_programa_match' in rec_received):
-                    if 'nombre_curso_match' in rec_received:
+                # print('Dann')
+                if ('nombre_curso_match' in rec_received.keys()) or ('nombre_programa_match' in rec_received.keys()):
+                    if 'nombre_curso_match' in rec_received.keys():
                         cost_rec, msg = db_connection.get_costo_curso(rec_received['nombre_curso_match'])
                         response1 = answer_template(8, entities_dict)
-                        if 'nombre_programa_match' in rec_received:
+                        if 'nombre_programa_match' in rec_received.keys():
                             cost_rec, msg = db_connection.get_costo_programa(rec_received['nombre_programa_match'])
                             response2 = answer_template(9, entities_dict)
                             response = response1 + ' Respecto a tu segunda consulta, ' + response2
@@ -384,12 +386,12 @@ def conversation_tree(db_connection, intent_dict, entities_dict, data):
                     return response
         elif rec_received['intent'] == 'informacion_programacion':
             if len(entities) == 0:
-                if ('nombre_curso_match' in rec_received) or ('nombre_programa_match' in rec_received):
-                    if 'nombre_curso_match' in rec_received:
+                if ('nombre_curso_match' in rec_received.keys()) or ('nombre_programa_match' in rec_received.keys()):
+                    if 'nombre_curso_match' in rec_received.keys():
                         programacion_rec, estado_cur, reprog_cur, horario_cur, cur_en_prog = \
                             db_connection.get_programacion(rec_received['nombre_curso_match'])
                         response1 = answer_template(10, entities_dict)
-                        if 'nombre_programa_match' in rec_received:
+                        if 'nombre_programa_match' in rec_received.keys():
                             fec_programa, nombre_curso, msg = db_connection.get_date_programa(
                                 rec_received['nombre_programa_match'])
                             row = [nombre_curso, rec_received['nombre_programa_match']]
@@ -691,10 +693,21 @@ def answer_template(flg, entities_dict=None):
                         return resp
             elif len(cost_rec) == 2:
                 if (cost_rec[0][2] == 'COSTO REGULAR') and (cost_rec[1][2] == 'COSTO LIBRE'):
+                    print('entities_dict: ', entities_dict)
                     if 'nombre_curso_match' in entities_dict.keys():
                         if entities_dict['nombre_curso_match'] != entities_dict['nombre_curso'].lower():
                             resp = 'Quizá te referías al curso ' + cost_rec[0][0] + '. Este puede llevarse de dos formas, como curso LIBRE o ' \
                                                                   'como parte de un MÓDULO. Su ' + cost_rec[0][2] + ' es igual a ' + \
+                                   str(cost_rec[0][3]) + ' nuevo soles, o lo que equivale a ' + \
+                                   str(cost_rec[0][4]) + ' dolares americanos. El ' + cost_rec[1][2] + \
+                                   ' es igual a ' + str(cost_rec[1][3]) + ' nuevo soles, o lo que equivale a ' + \
+                                   str(cost_rec[1][4]) + ' dolares americanos.'
+                            flg = 0
+                            return resp
+                        else:
+                            resp = 'El curso ' + cost_rec[0][
+                                0] + ' puede llevarse de dos formas, como curso LIBRE o ' \
+                                     'como parte de un MÓDULO. Su ' + cost_rec[0][2] + ' es igual a ' + \
                                    str(cost_rec[0][3]) + ' nuevo soles, o lo que equivale a ' + \
                                    str(cost_rec[0][4]) + ' dolares americanos. El ' + cost_rec[1][2] + \
                                    ' es igual a ' + str(cost_rec[1][3]) + ' nuevo soles, o lo que equivale a ' + \
@@ -714,6 +727,16 @@ def answer_template(flg, entities_dict=None):
                 else:
                     if 'nombre_curso_match' in entities_dict.keys():
                         if entities_dict['nombre_curso_match'] != entities_dict['nombre_curso'].lower():
+                            resp = 'El curso ' + cost_rec[0][0] + ' puede llevarse de dos formas, como curso LIBRE o ' \
+                                                                  'como parte de un MÓDULO. Su ' + cost_rec[1][
+                                       2] + ' es igual a ' + \
+                                   str(cost_rec[1][3]) + ' nuevo soles, o lo que equivale a ' + \
+                                   str(cost_rec[1][4]) + ' dolares americanos y su ' + cost_rec[0][2] + \
+                                   ' es igual a ' + str(cost_rec[0][3]) + ' nuevo soles, o lo que equivale a ' + \
+                                   str(cost_rec[0][4]) + ' dolares americanos.'
+                            flg = 0
+                            return resp
+                        else:
                             resp = 'El curso ' + cost_rec[0][0] + ' puede llevarse de dos formas, como curso LIBRE o ' \
                                                                   'como parte de un MÓDULO. Su ' + cost_rec[1][
                                        2] + ' es igual a ' + \
@@ -935,8 +958,13 @@ if __name__ == "__main__":
     # user_mssg = 'cual es su precio?'
     # user_mssg = 'y cuando inicia?'
     # user_mssg = 'diseño de data center'
-    user_mssg = 'muchas gracias'
+    # user_mssg = 'muchas gracias'
     # user_mssg = 'cuantas horas se dicta a la semana el curso de comunicaiones móviles?'
+    # user_mssg = 'y respecto al curso de CCTV DIGITAL, me podría brindar información?'
+    # user_mssg = 'cuanto cuesta este curso?'
+    # user_mssg = 'cual es el precio?'
+    user_mssg = 'CCTV DIGITALIZADO'
+
     register = []
     path = Path(resource_path('conversations/register_' + user_name + '.json'))
     if path.is_file():
