@@ -204,5 +204,26 @@
         "intent": "informacion_general",
         "nombre_curso": "dise\u00f1o de dat center",
         "nombre_curso_match": "dise\u00f1o de data center"
+    },
+    {
+        "id": 40,
+        "intent": "inicio_conversacion"
+    },
+    {
+        "id": 41,
+        "intent": "informacion_general",
+        "nombre_curso": "dise\u00f1o de dat center",
+        "nombre_curso_match": "dise\u00f1o de data center"
+    },
+    {
+        "id": 42,
+        "intent": "informacion_precio"
+    },
+    {
+        "id": 43,
+        "intent": "informacion_precio",
+        "tipo_capacitacion": "programa",
+        "nombre_programa": "ESPECIALISTA CERTIFICDO EN LINUX",
+        "nombre_programa_match": "especialista certificado en linux"
     }
 ]
