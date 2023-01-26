@@ -40,5 +40,70 @@
         "intent": "informacion_precio",
         "tipo_capacitacion": "curso",
         "nombre_curso": "INSTALACI\u00d3N Y CONFIGURACI\u00d3N DE LINUX"
+    },
+    {
+        "id": 8,
+        "intent": "informacion_programacion",
+        "tipo_capacitacion": "curso"
+    },
+    {
+        "id": 9,
+        "intent": "otra",
+        "tipo_capacitacion": "curso"
+    },
+    {
+        "id": 10,
+        "intent": "otra",
+        "tipo_capacitacion": "curso"
+    },
+    {
+        "id": 11,
+        "intent": "informacion_programacion",
+        "tipo_capacitacion": "curso"
+    },
+    {
+        "id": 12,
+        "intent": "informacion_general"
+    },
+    {
+        "id": 13,
+        "intent": "informacion_general"
+    },
+    {
+        "id": 14,
+        "intent": "informacion_general",
+        "tipo_capacitacion": "curso"
+    },
+    {
+        "id": 15,
+        "intent": "informacion_programacion"
+    },
+    {
+        "id": 16,
+        "intent": "informacion_general"
+    },
+    {
+        "id": 17,
+        "intent": "informacion_general"
+    },
+    {
+        "id": 18,
+        "intent": "informacion_general"
+    },
+    {
+        "id": 19,
+        "intent": "informacion_general"
+    },
+    {
+        "id": 20,
+        "intent": "informacion_pago"
+    },
+    {
+        "id": 21,
+        "intent": "informacion_pago"
+    },
+    {
+        "id": 22,
+        "intent": "informacion_inscripcion"
     }
 ]

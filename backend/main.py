@@ -16,6 +16,11 @@ class CHATBOT:
     def __init__(self):
         self.nlu = NLU()
 
+    def eval_confidence(self, intent_dict):
+         if intent_dict['intent_score'] <= 0.6:
+             intent_dict['intent'] = "fuera_alcance"
+         return intent_dict
+
     def nlu_inference(self, user_mssg):
         """
         Función que realizará la inferencia del mensaje de usuario enviado desde el frontend para la obtención
@@ -26,6 +31,8 @@ class CHATBOT:
         output_nlu = self.nlu.inference(user_mssg)
         # intent_dict = {'intent': 'informacion_general'}
         intent_dict = output_nlu["intent"]
+
+        intent_dict = self.eval_confidence(intent_dict)
 
         # intent_dict = {'intent': 'informacion_precio'}
         # intent_dict = {'intent': 'inicio_conversacion'}
@@ -91,7 +98,7 @@ class CHATBOT:
             for d in output_nlu['entities']:
                 value = re.sub(r'(\w)( - )(\w)', r'\1-\3', d['value'])
                 entities_dict[d['entity'].lower()] = value
-
+        print("intent_dict", intent_dict)
         return intent_dict, entities_dict
 
     def get_response(self, user_name, user_mssg):
@@ -131,3 +138,9 @@ class CHATBOT:
         print(response_final)
 
         return response_final
+
+if __name__ == "__main__":
+    chatbot = CHATBOT()
+    user = "dann"
+    input = "sibaritas amigo"
+    chatbot.get_response(user, input)

@@ -33,14 +33,7 @@ class DatabaseConnection:
                 self.connection = None
         else:
             if self.verify_last_connection(connect_params):
-                    self.connection.admin.command('ping')
-            else:
-                self.is_valid_connection, self.params = self.connect(connect_params)
-                if self.is_valid_connection:
-                    self.connection.admin.command('ping')
-                else:
-                    self.connection = None
-                    self.is_initialized = False
+                    self.ping_connection()
 
     def connect(self, connect_params):
         user = connect_params['user']
@@ -55,6 +48,13 @@ class DatabaseConnection:
             print("DB ERROR IN CONNECTION: \n", error)
             #print_psycopg2_exception(error)
             return False, None
+
+    def ping_connection(self):
+        try:
+            cur = self.connection.cursor()
+            cur.execute('SELECT 1')
+        except OperationalError as error:
+            print("Error en conexion a DB \n", error)
 
     def verify_last_connection(self, new_params):
         user_condition = (self.params['user'] == new_params['user'])
