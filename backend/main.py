@@ -1,3 +1,5 @@
+import os
+
 from backend.nlu.nlu import NLU
 from backend.conv_manager.question_answering import get_db_info
 from backend.database.database_connection import DatabaseConnection
@@ -102,6 +104,9 @@ class CHATBOT:
         return intent_dict, entities_dict
 
     def get_response(self, user_name, user_mssg):
+
+        os.makedirs(resource_path('conversations'), exist_ok= True)
+
         register = []
         path = Path(resource_path('conversations/register_' + user_name + '.json'))
         if path.is_file():
@@ -185,5 +190,5 @@ class CHATBOT:
 if __name__ == "__main__":
     chatbot = CHATBOT()
     user = "dann"
-    input = "cuanto es el precio?"
+    input = "hola"
     chatbot.get_response(user, input)

@@ -966,6 +966,8 @@ if __name__ == "__main__":
     user_mssg = 'CCTV DIGITALIZADO'
 
     register = []
+    os.makedirs(resource_path('conversations'), exist_ok=True)
+
     path = Path(resource_path('conversations/register_' + user_name + '.json'))
     if path.is_file():
         # Abriendo el archivo JSON para acceder al id
