@@ -185,5 +185,5 @@ class CHATBOT:
 if __name__ == "__main__":
     chatbot = CHATBOT()
     user = "dann"
-    input = "cuanto es el precio"
+    input = "cuanto es el precio?"
     chatbot.get_response(user, input)
