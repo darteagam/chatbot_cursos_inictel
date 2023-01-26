@@ -10,8 +10,8 @@ device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 
 def resource_path(relative_path):
-    abs_path = r'C:/Users/darteaga/PycharmProjects/chatbot_cursos_inictel/'
-    # abs_path = r'C:/Users/user/PycharmProjects/chatbot_cursos_inictel/'
+    # abs_path = r'C:/Users/darteaga/PycharmProjects/chatbot_cursos_inictel/'
+    abs_path = r'C:/Users/user/PycharmProjects/chatbot_cursos_inictel/'
     # abs_path = r'/var/www/html/chatbot_cursos_inictel/'
     return abs_path + relative_path
 
