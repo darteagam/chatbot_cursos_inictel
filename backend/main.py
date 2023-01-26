@@ -29,6 +29,7 @@ class CHATBOT:
         :return: intent, entities
         """
         output_nlu = self.nlu.inference(user_mssg)
+        print(output_nlu)
         # intent_dict = {'intent': 'informacion_general'}
         intent_dict = output_nlu["intent"]
 
@@ -98,7 +99,6 @@ class CHATBOT:
             for d in output_nlu['entities']:
                 value = re.sub(r'(\w)( - )(\w)', r'\1-\3', d['value'])
                 entities_dict[d['entity'].lower()] = value
-        print("intent_dict", intent_dict)
         return intent_dict, entities_dict
 
     def get_response(self, user_name, user_mssg):
@@ -109,11 +109,56 @@ class CHATBOT:
             json_file = open(resource_path('conversations/register_' + user_name + '.json'))
             json_data = json.load(json_file)
             intent_dict, entities_dict = self.nlu_inference(user_mssg)
+            print('i&e_1: ', intent_dict, entities_dict)
             rec = dict()
             rec['id'] = len(json_data) + 1
             rec['intent'] = intent_dict['intent']
             for key, value in entities_dict.items():
                 rec[key] = value
+            # Agregamos al diccionario entities_dict la entidad coincidente (levenshtein)
+            if 'nombre_curso' in entities_dict.keys():
+                if db_connection.get_curso(entities_dict['nombre_curso'])[0]:
+                    if entities_dict['nombre_curso']:
+                        entities_dict['nombre_curso_match'] = \
+                            (db_connection.get_curso(entities_dict['nombre_curso']))[0][0][1].lower()
+                        rec['nombre_curso_match'] = entities_dict['nombre_curso_match']
+                    else:
+                        pass
+                else:
+                    pass
+            elif 'nombre_programa' in entities_dict.keys():
+                if db_connection.get_programa(entities_dict['nombre_programa'])[0]:
+                    if entities_dict['nombre_programa']:
+                        entities_dict['nombre_programa_match'] = \
+                            (db_connection.get_programa(entities_dict['nombre_programa']))[0][0][1].lower()
+                        rec['nombre_programa_match'] = entities_dict['nombre_programa_match']
+                    else:
+                        pass
+                else:
+                    pass
+            elif ('nombre_curso' in entities_dict.keys()) or ('nombre_programa' in entities_dict.keys()):
+                # Codigo para futuras mejoras
+                pass
+            else:
+                pass
+
+            # if ('nombre_curso' in entities_dict.keys()) or ('nombre_programa' in entities_dict.keys()):
+            #     if db_connection.get_curso(entities_dict['nombre_curso'])[0]:
+            #         if 'nombre_curso' in entities_dict.keys():
+            #             if entities_dict['nombre_curso']:
+            #                 entities_dict['nombre_curso_match'] = (db_connection.get_curso(entities_dict['nombre_curso']))[0][0][1].lower()
+            #                 rec['nombre_curso_match'] = entities_dict['nombre_curso_match']
+            #         elif 'nombre_programa' in entities_dict.keys():
+            #             if entities_dict['nombre_programa']:
+            #                 entities_dict['nombre_programa_match'] = (db_connection.get_curso(entities_dict['nombre_programa']))[0][0][1].lower()
+            #                 rec['nombre_programa_match'] = entities_dict['nombre_programa_match']
+            #         else:
+            #             pass
+            #     else:
+            #         pass
+            # else:
+            #     pass
+            print('i&e_2: ', intent_dict, entities_dict)
             response_final = conversation_tree(db_connection, intent_dict, entities_dict, json_data)
             with open(resource_path('conversations/register_' + user_name + '.json'), "r+", encoding='utf-8') as file:
                 data = json.load(file)
@@ -123,7 +168,7 @@ class CHATBOT:
         else:
             # Crear el json y guardar el rec
             intent_dict, entities_dict = self.nlu_inference(user_mssg)
-            #print(intent_dict, entities_dict) #intent_entities_mssg
+            # print(intent_dict, entities_dict)
             rec = dict()
             rec['id'] = 1
             rec['intent'] = intent_dict['intent']
@@ -133,8 +178,6 @@ class CHATBOT:
             with open(resource_path('conversations/register_' + user_name + '.json'), 'w', encoding='utf-8') as file:
                 json.dump(register, file, indent=4)
             response_final = conversation_tree(db_connection, intent_dict, entities_dict, [])
-
-        # print('response: ', response_final)
         print(response_final)
 
         return response_final
@@ -142,5 +185,5 @@ class CHATBOT:
 if __name__ == "__main__":
     chatbot = CHATBOT()
     user = "dann"
-    input = "sibaritas amigo"
+    input = "cuanto es el precio"
     chatbot.get_response(user, input)
