@@ -590,7 +590,6 @@ def answer_template(flg, entities_dict=None):
     :param value: refiere al valor entero de la fila o registro a consultar
     :return: response
     """
-    global resp_match
     if flg == 1:
         resp = 'Genial!. ¿Podrías indicarme el nombre del curso para brindarte información?'
         flg = 0
@@ -779,6 +778,8 @@ def answer_template(flg, entities_dict=None):
         if 'nombre_curso_match' in entities_dict.keys():
             if entities_dict['nombre_curso'] != entities_dict['nombre_curso_match'].lower():
                 resp_match = 'Quizá te referías al curso ' + programacion_rec[0][12] + '.'
+            else:
+                resp_match = ''
         # Casos según el estado del curso
         if programacion_rec[0][4] == 1:
             resp = 'El curso ' + programacion_rec[0][12] + ' pertenece al programa ' + cur_en_prog[0][1] + \
@@ -827,12 +828,17 @@ def answer_template(flg, entities_dict=None):
             flg = 0
             return resp_match + ' ' + resp
     elif flg == 11:
+        if 'nombre_programa_match' in entities_dict.keys():
+            if entities_dict['nombre_programa'] != entities_dict['nombre_programa_match'].lower():
+                resp_match = 'Quizá te referías al programa ' + programacion_rec[0][12] + '.'
+            else:
+                resp_match = ''
         # Se responde con la fecha de programación del 1er curso (modulo) del programa
         resp = 'El programa ' + row[1] + ' inicia el ' \
                + fec_programa[0][2].strftime("%d-%m-%y") + ' con el primer módulo ' \
                + row[0]
         flg = 0
-        return resp
+        return resp_match + ' ' + resp
     elif flg == 12:
         # Estas son las respuestas de la intención "otra"
         response = 'Respuesta de flg=12'
@@ -921,9 +927,15 @@ if __name__ == "__main__":
     # user_mssg = 'cual es el precio del curso de PROPAGACIN Y ANTENAS'
     # user_mssg = 'cual es el precio del curso de COMUNICCIONES MÓVILES'
     # user_mssg = 'cual es el precio del programa de ESPECIALISTA CERTIFICDO EN LINUX'
-    user_mssg = 'cual es su precio?'
+    # user_mssg = 'y cuando inicia?'
     # user_mssg = 'Me podría brindar información acerca de diseño de dat center?'
     # user_mssg = 'Hola'
+    # user_mssg = 'quiero informacion de los cursos'
+    # user_mssg = 'diseño de dat center'
+    # user_mssg = 'cual es su precio?'
+    # user_mssg = 'y cuando inicia?'
+    # user_mssg = 'diseño de data center'
+    user_mssg = 'muchas gracias'
     # user_mssg = 'cuantas horas se dicta a la semana el curso de comunicaiones móviles?'
     register = []
     path = Path(resource_path('conversations/register_' + user_name + '.json'))
