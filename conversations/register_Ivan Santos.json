@@ -32,5 +32,99 @@
         "id": 7,
         "intent": "informacion_general",
         "tipo_capacitacion": "cursos"
+    },
+    {
+        "id": 8,
+        "intent": "inicio_conversacion"
+    },
+    {
+        "id": 9,
+        "intent": "informacion_general",
+        "tipo_capacitacion": "curso",
+        "nombre_curso": "diseno de data center"
+    },
+    {
+        "id": 10,
+        "intent": "inicio_conversacion"
+    },
+    {
+        "id": 11,
+        "intent": "inicio_conversacion"
+    },
+    {
+        "id": 12,
+        "intent": "informacion_general",
+        "tipo_capacitacion": "curso",
+        "nombre_curso": "drones"
+    },
+    {
+        "id": 13,
+        "intent": "inicio_conversacion"
+    },
+    {
+        "id": 14,
+        "intent": "otra",
+        "tipo_capacitacion": "curso",
+        "nombre_curso": "Fundamentos de UAV"
+    },
+    {
+        "id": 15,
+        "intent": "informacion_general",
+        "tipo_capacitacion": "cursos"
+    },
+    {
+        "id": 16,
+        "intent": "inicio_conversacion"
+    },
+    {
+        "id": 17,
+        "intent": "informacion_general",
+        "tipo_capacitacion": "cursos"
+    },
+    {
+        "id": 18,
+        "intent": "informacion_general",
+        "nombre_curso": "dise\u00f1o de dat center"
+    },
+    {
+        "id": 19,
+        "intent": "otra",
+        "nombre_curso": "Inteligencia artificial"
+    },
+    {
+        "id": 20,
+        "intent": "informacion_precio"
+    },
+    {
+        "id": 21,
+        "intent": "otra",
+        "nombre_curso": "Redes"
+    },
+    {
+        "id": 22,
+        "intent": "otra",
+        "nombre_curso": "Administraci\u00f3n de bases de datos"
+    },
+    {
+        "id": 23,
+        "intent": "informacion_general",
+        "tipo_capacitacion": "curso",
+        "nombre_curso": "data center"
+    },
+    {
+        "id": 24,
+        "intent": "informacion_general",
+        "tipo_capacitacion": "curso",
+        "nombre_curso": "data center"
+    },
+    {
+        "id": 25,
+        "intent": "informacion_general",
+        "tipo_capacitacion": "curso",
+        "nombre_curso": "atencion al cliente I"
+    },
+    {
+        "id": 26,
+        "intent": "informacion_precio"
     }
 ]
