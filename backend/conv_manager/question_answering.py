@@ -196,16 +196,16 @@ def conversation_tree(db_connection, intent_dict, entities_dict, data):
             if ('nombre_curso_match' in rec_received.keys()) or ('nombre_programa_match' in rec_received.keys()):
                 if 'nombre_curso_match' in rec_received.keys():
                     cost_rec, msg = db_connection.get_costo_curso(rec_received['nombre_curso_match'])
-                    response1 = answer_template(8)
+                    response1 = answer_template(8, entities_dict)
                     if 'nombre_programa_match' in rec_received.keys():
                         cost_rec, msg = db_connection.get_costo_programa(rec_received['nombre_programa_match'])
-                        response2 = answer_template(9)
+                        response2 = answer_template(9, entities_dict)
                         response = response1 + ' Respecto a tu segunda consulta, ' + response2
                         return response
                     return response1
                 else:
                     cost_rec, msg = db_connection.get_costo_programa(rec_received['nombre_programa_match'])
-                    response1 = answer_template(9)
+                    response1 = answer_template(9, entities_dict)
                     return response1
             else:
                 response = answer_template(1)
@@ -214,16 +214,16 @@ def conversation_tree(db_connection, intent_dict, entities_dict, data):
             if ('nombre_curso_match' in entities) or ('nombre_programa_match' in entities):
                 if 'nombre_curso_match' in entities:
                     cost_rec, msg1 = db_connection.get_costo_curso(entities_dict['nombre_curso_match'])
-                    response1 = answer_template(8)
+                    response1 = answer_template(8, entities_dict)
                     if 'nombre_programa_match' in entities:
                         cost_rec, msg2 = db_connection.get_costo_programa(entities_dict['nombre_programa_match'])
-                        response2 = answer_template(9)
+                        response2 = answer_template(9, entities_dict)
                         response = response1 + ' Respecto a tu segunda consulta, ' + response2
                         return response
                     return response1
                 else:
                     cost_rec, msg2 = db_connection.get_costo_programa(entities_dict['nombre_programa_match'])
-                    response = answer_template(9)
+                    response = answer_template(9, entities_dict)
                     return response
             else:
                 response = answer_template(14)
@@ -251,7 +251,7 @@ def conversation_tree(db_connection, intent_dict, entities_dict, data):
                 if 'nombre_curso_match' in rec_received:
                     programacion_rec, estado_cur, reprog_cur, horario_cur, cur_en_prog = \
                         db_connection.get_programacion(rec_received['nombre_curso_match'])
-                    response1 = answer_template(10)
+                    response1 = answer_template(10, entities_dict)
                     if 'nombre_programa_match' in rec_received:
                         fec_programa, nombre_curso, msg = db_connection.get_date_programa(
                             rec_received['nombre_programa_match'])
@@ -273,7 +273,7 @@ def conversation_tree(db_connection, intent_dict, entities_dict, data):
                 if 'nombre_curso_match' in entities:
                     programacion_rec, estado_cur, reprog_cur, horario_cur, cur_en_prog = \
                         db_connection.get_programacion(entities_dict['nombre_curso_match'])
-                    response1 = answer_template(10)
+                    response1 = answer_template(10, entities_dict)
                     if 'nombre_programa_match' in entities:
                         fec_programa, nombre_curso, msg = db_connection.get_date_programa(
                             entities_dict['nombre_programa_match'])
@@ -350,16 +350,16 @@ def conversation_tree(db_connection, intent_dict, entities_dict, data):
                 if ('nombre_curso_match' in rec_received) or ('nombre_programa_match' in rec_received):
                     if 'nombre_curso_match' in rec_received:
                         cost_rec, msg = db_connection.get_costo_curso(rec_received['nombre_curso_match'])
-                        response1 = answer_template(8)
+                        response1 = answer_template(8, entities_dict)
                         if 'nombre_programa_match' in rec_received:
                             cost_rec, msg = db_connection.get_costo_programa(rec_received['nombre_programa_match'])
-                            response2 = answer_template(9)
+                            response2 = answer_template(9, entities_dict)
                             response = response1 + ' Respecto a tu segunda consulta, ' + response2
                             return response
                         return response1
                     else:
                         cost_rec, msg = db_connection.get_costo_programa(rec_received['nombre_programa_match'])
-                        response1 = answer_template(9)
+                        response1 = answer_template(9, entities_dict)
                         return response1
                 else:
                     response = answer_template(1)
@@ -368,16 +368,16 @@ def conversation_tree(db_connection, intent_dict, entities_dict, data):
                 if ('nombre_curso_match' in entities) or ('nombre_programa_match' in entities):
                     if 'nombre_curso_match' in entities:
                         cost_rec, msg1 = db_connection.get_costo_curso(entities_dict['nombre_curso_match'])
-                        response1 = answer_template(8)
+                        response1 = answer_template(8, entities_dict)
                         if 'nombre_programa_match' in entities:
                             cost_rec, msg2 = db_connection.get_costo_programa(entities_dict['nombre_programa_match'])
-                            response2 = answer_template(9)
+                            response2 = answer_template(9, entities_dict)
                             response = response1 + ' Respecto a tu segunda consulta, ' + response2
                             return response
                         return response1
                     else:
                         cost_rec, msg2 = db_connection.get_costo_programa(entities_dict['nombre_programa_match'])
-                        response = answer_template(9)
+                        response = answer_template(9, entities_dict)
                         return response
                 else:
                     response = answer_template(14)
@@ -388,7 +388,7 @@ def conversation_tree(db_connection, intent_dict, entities_dict, data):
                     if 'nombre_curso_match' in rec_received:
                         programacion_rec, estado_cur, reprog_cur, horario_cur, cur_en_prog = \
                             db_connection.get_programacion(rec_received['nombre_curso_match'])
-                        response1 = answer_template(10)
+                        response1 = answer_template(10, entities_dict)
                         if 'nombre_programa_match' in rec_received:
                             fec_programa, nombre_curso, msg = db_connection.get_date_programa(
                                 rec_received['nombre_programa_match'])
@@ -411,7 +411,7 @@ def conversation_tree(db_connection, intent_dict, entities_dict, data):
                     if 'nombre_curso_match' in entities:
                         programacion_rec, estado_cur, reprog_cur, horario_cur, cur_en_prog = \
                             db_connection.get_programacion(entities_dict['nombre_curso_match'])
-                        response1 = answer_template(10)
+                        response1 = answer_template(10, entities_dict)
                         if 'nombre_programa_match' in entities:
                             fec_programa, nombre_curso, msg = db_connection.get_date_programa(
                                 entities_dict['nombre_programa_match'])
@@ -484,16 +484,16 @@ def conversation_tree(db_connection, intent_dict, entities_dict, data):
                     if ('nombre_curso_match' in rec_received) or ('nombre_programa_match' in rec_received):
                         if 'nombre_curso_match' in rec_received:
                             cost_rec, msg = db_connection.get_costo_curso(rec_received['nombre_curso_match'])
-                            response1 = answer_template(8)
+                            response1 = answer_template(8, entities_dict)
                             if 'nombre_programa_match' in rec_received:
                                 cost_rec, msg = db_connection.get_costo_programa(rec_received['nombre_programa_match'])
-                                response2 = answer_template(9)
+                                response2 = answer_template(9, entities_dict)
                                 response = response1 + ' Respecto a tu segunda consulta, ' + response2
                                 return response
                             return response1
                         else:
                             cost_rec, msg = db_connection.get_costo_programa(rec_received['nombre_programa_match'])
-                            response1 = answer_template(9)
+                            response1 = answer_template(9, entities_dict)
                             return response1
                     else:
                         response = answer_template(1)
@@ -502,17 +502,17 @@ def conversation_tree(db_connection, intent_dict, entities_dict, data):
                     if ('nombre_curso_match' in entities) or ('nombre_programa_match' in entities):
                         if 'nombre_curso_match' in entities:
                             cost_rec, msg1 = db_connection.get_costo_curso(entities_dict['nombre_curso_match'])
-                            response1 = answer_template(8)
+                            response1 = answer_template(8, entities_dict)
                             if 'nombre_programa_match' in entities:
                                 cost_rec, msg2 = db_connection.get_costo_programa(
                                     entities_dict['nombre_programa_match'])
-                                response2 = answer_template(9)
+                                response2 = answer_template(9, entities_dict)
                                 response = response1 + ' Respecto a tu segunda consulta, ' + response2
                                 return response
                             return response1
                         else:
                             cost_rec, msg2 = db_connection.get_costo_programa(entities_dict['nombre_programa_match'])
-                            response = answer_template(9)
+                            response = answer_template(9, entities_dict)
                             return response
                     else:
                         response = answer_template(14)
@@ -523,7 +523,7 @@ def conversation_tree(db_connection, intent_dict, entities_dict, data):
                         if 'nombre_curso_match' in rec_received:
                             programacion_rec, estado_cur, reprog_cur, horario_cur, cur_en_prog = \
                                 db_connection.get_programacion(rec_received['nombre_curso_match'])
-                            response1 = answer_template(10)
+                            response1 = answer_template(10, entities_dict)
                             if 'nombre_programa_match' in rec_received:
                                 fec_programa, nombre_curso, msg = db_connection.get_date_programa(
                                     rec_received['nombre_programa_match'])
@@ -546,7 +546,7 @@ def conversation_tree(db_connection, intent_dict, entities_dict, data):
                         if 'nombre_curso_match' in entities:
                             programacion_rec, estado_cur, reprog_cur, horario_cur, cur_en_prog = \
                                 db_connection.get_programacion(entities_dict['nombre_curso_match'])
-                            response1 = answer_template(10)
+                            response1 = answer_template(10, entities_dict)
                             if 'nombre_programa_match' in entities:
                                 fec_programa, nombre_curso, msg = db_connection.get_date_programa(
                                     entities_dict['nombre_programa_match'])
@@ -584,7 +584,7 @@ def conversation_tree(db_connection, intent_dict, entities_dict, data):
                 return response
 
 
-def answer_template(flg):
+def answer_template(flg, entities_dict=None):
     """
     Función que simula una plantilla de respuestas para cada caso del árbol de conversación.
     :param value: refiere al valor entero de la fila o registro a consultar
@@ -921,7 +921,8 @@ if __name__ == "__main__":
     # user_mssg = 'cual es el precio del curso de PROPAGACIN Y ANTENAS'
     # user_mssg = 'cual es el precio del curso de COMUNICCIONES MÓVILES'
     # user_mssg = 'cual es el precio del programa de ESPECIALISTA CERTIFICDO EN LINUX'
-    # user_mssg = 'cual es el precio?'
+    user_mssg = 'cual es su precio?'
+    # user_mssg = 'Me podría brindar información acerca de diseño de dat center?'
     # user_mssg = 'Hola'
     # user_mssg = 'cuantas horas se dicta a la semana el curso de comunicaiones móviles?'
     register = []
