@@ -436,13 +436,14 @@ def conversation_tree(db_connection, intent_dict, entities_dict, data):
             intents_chat = []
             for i in data:
                 intents_chat.append(i['intent'])
-            # intents_chat.append(rec['intent'])
             for w in range(len(intents_chat), 0, -1):
                 if (intents_chat[w - 1] != 'otra') and (intents_chat[w - 1] != 'inicio_conversacion') \
                         and (intents_chat[w - 1] != 'agradecimiento'):
                     different_intent = intents_chat[w - 1]
-                    # rec['intent'] = last_intent_differentx
                     break
+                else:
+                    different_intent = '**'
+
 
             if different_intent == 'informacion_general':
                 if len(entities) == 0:
@@ -583,6 +584,9 @@ def conversation_tree(db_connection, intent_dict, entities_dict, data):
                 return response
             elif different_intent == 'continuacion':
                 response = answer_template(15)
+                return response
+            else:
+                response = answer_template(14)
                 return response
 
 
@@ -952,7 +956,7 @@ if __name__ == "__main__":
     # user_mssg = 'cual es el precio del programa de ESPECIALISTA CERTIFICDO EN LINUX'
     # user_mssg = 'y cuando inicia?'
     # user_mssg = 'Me podría brindar información acerca de diseño de dat center?'
-    # user_mssg = 'Hola'
+    # user_mssg = 'hoaal'
     # user_mssg = 'quiero informacion de los cursos'
     # user_mssg = 'diseño de dat center'
     # user_mssg = 'cual es su precio?'
