@@ -9,11 +9,14 @@ jQuery(document).ready(function () {
 
     $(".chat-mail .boton1").click(function () {
         var ExRegEmail = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,4})+$/;
-        var ExRegName = /^[a-zA-ZÀ-ÿ\s]{12,80}$/;
+        var ExRegName = /^[a-zA-ZÀ-ÿ\s]{2,80}$/;
         var name = document.getElementById('txtNameChat').value;
         var email = document.getElementById('txtEmailChat').value;
         var celular = document.getElementById('txtSelected').value;
         var messaje = document.getElementById('mensaje');
+
+        console.log(name);
+        console.log(email);
 
         if (!ExRegName.test(name)) {
             messaje.innerHTML = "Ingrese nombres y apellidos correctamente!!";
@@ -29,27 +32,27 @@ jQuery(document).ready(function () {
                     phone: celular
                 },
                 success: function (result) {
-                    document.getElementById('datos_usuario').textContent = result;
+//                    document.getElementById('datos_usuario').textContent = result;
+                    console.log(result);
                 }
             });
+
+            $('.chat-mail').addClass('hide');
+            $('.chat-body').removeClass('hide');
+            $('.chat-input').removeClass('hide');
+            $('.chat-header-option').removeClass('hide');
+
+            $('.chat-body').append('<div class="chat-package"><div class="spinner last-spining"><div class="bounce1"></div><div class="bounce2"></div><div class="bounce3"></div></div><div class="chat-bubble tu hide last-message">Bienvenido a nuestro sitio <span id="datos_usuario"></span>, si necesita información respecto a los cursos que se dicta en la institución, escriba su consulta que estamos en linea y listos para ayudar.<span class="message-time">' + getHoraActual() + '</span></div><div class="clear"></div></div>');
+
+            setTimeout(function () {
+                $('.last-spining').hide(400, function () {
+                    $('.last-message').fadeIn('fast');
+                    $('.last-spining').removeClass('last-spining');
+                    $('.last-message').removeClass('hide');
+                    $('.start').addClass('hide');
+                });
+            }, 1000);
         }
-
-        $('.chat-mail').addClass('hide');
-        $('.chat-body').removeClass('hide');
-        $('.chat-input').removeClass('hide');
-        $('.chat-header-option').removeClass('hide');
-
-        $('.chat-body').append('<div class="chat-package"><div class="spinner last-spining"><div class="bounce1"></div><div class="bounce2"></div><div class="bounce3"></div></div><div class="chat-bubble tu hide last-message">Bienvenido a nuestro sitio <span id="datos_usuario"></span>, si necesita información respecto a los cursos que se dicta en la institución, escriba su consulta que estamos en linea y listos para ayudar.<span class="message-time">' + getHoraActual() + '</span></div><div class="clear"></div></div>');
-
-        setTimeout(function () {
-            $('.last-spining').hide(400, function () {
-                $('.last-message').fadeIn('fast');
-                $('.last-spining').removeClass('last-spining');
-                $('.last-message').removeClass('hide');
-                $('.start').addClass('hide');
-            });
-        }, 1000);
-
 
     });
 
@@ -102,8 +105,6 @@ jQuery(document).ready(function () {
             console.log("Completado!!!!");
             $('.ojo-data').addClass('hide');
         });
-
-
 
     });
 
