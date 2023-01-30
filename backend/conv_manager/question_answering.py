@@ -151,9 +151,9 @@ def conversation_tree(db_connection, intent_dict, entities_dict, data):
     if data:
         # rec_received = data[-1]
         rec_received = data[-2:]
-        print('rec_received[-1]: ', rec_received[-1])
-        print('rec_received[-2]: ', rec_received[-2])
-        entities_dict_ = rec_received[-2]
+        # print('rec_received[-1]: ', rec_received[-1])
+        # print('rec_received[-2]: ', rec_received[-2])
+        # entities_dict_ = rec_received[-2]
         # print('entities_dict_: ', entities_dict_)
     else:
         rec_received = {}
