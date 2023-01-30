@@ -351,7 +351,7 @@ def conversation_tree(db_connection, intent_dict, entities_dict, data):
     elif intent == 'otra':
         if rec_received[-1]['intent'] == 'informacion_general':
             if len(entities) == 0:
-                response = answer_template(1)
+                response = answer_template(14)
                 return response
             else:
                 if ('nombre_curso' in entities) or ('nombre_programa' in entities):
