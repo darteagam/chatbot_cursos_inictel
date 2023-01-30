@@ -49,13 +49,13 @@
                 <div class="row">
                     <div class="col-md-12">
                         <div class="mb-4">
-                            <input type="text" class="form-control" id="txtNameChat" placeholder="Ingrese su nombre" value="Ivan Gavino Leon" required="">
+                            <input type="text" class="form-control" id="txtNameChat" placeholder="Ingrese su nombre"  required="">
                         </div>
                         <div class="mb-4">
-                            <input type="email" class="form-control" id="txtEmailChat" placeholder="Ingrese su email" value="ivangavino@gmail.com" required="">
+                            <input type="email" class="form-control" id="txtEmailChat" placeholder="Ingrese su email"  required="">
                         </div>
                         <div class="mb-4">
-                            <input type="text" class="form-control" id="txtSelected" placeholder="Ingrese su número de celular" value="987654321" required="">
+                            <input type="text" class="form-control" id="txtSelected" placeholder="Ingrese su número de celular"  required="">
                         </div>
                     </div>
                     <div class="col-md-12">

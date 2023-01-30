@@ -1,21 +1,22 @@
 <?php
 
+session_start();
+
 $consulta = $_POST['message'];
 
-$nombre = "Ivan Santos";
+$nombre = $_SESSION["nombres"];
 
 sleep(3);
 //
 //echo 'La respuesta esta en espera, disculpe la tardanza';
 
 //$command1 = "cd /var/www/html/chatbot_cursos_inictel/";
-//$command2 = "/var/www/html/chatbot_cursos_inictel/venv/bin/python -m backend.conv_manager.question_answering '" . $nombre . "' '" . $consulta."'";
+//$command2 = "/var/www/html/chatbot_cursos_inictel/venv/bin/python -m backend.conv_manager.question_answering '" . $nombre . "' '" . $consulta . "'";
 //$command_exec = $command1 . ' ; ' . $command2;
 //$fileName = trim(shell_exec($command_exec));
-//echo $fileName;
+//echo $nombre;
 
-//echo $command_exec;
-
+$data= $nombre."-".session_id();
 
 $url = 'http://127.0.0.1:8000/chatbot/'; 
 $data = array("input" => $consulta, "user" =>$nombre);
@@ -32,6 +33,13 @@ curl_setopt($curl, CURLOPT_HTTPHEADER, [
 ]);
 $response = curl_exec($curl);
 $respuesta = json_decode($response,true);
-echo $respuesta["output"];
+
+if($respuesta!=""){
+ echo $respuesta["output"];
+}else{
+echo "Disculpe el sistema está en mantenimiento!!";
+}
+
+//echo $respuesta["output"];
 //var_dump($respuesta);
 //curl_close($curl);
