@@ -349,180 +349,8 @@ def conversation_tree(db_connection, intent_dict, entities_dict, data):
         return response
 
     elif intent == 'otra':
-        if rec_received[-1]['intent'] == 'informacion_general':
-            if len(entities) == 0:
-                response = answer_template(14)
-                return response
-            else:
-                if ('nombre_curso' in entities) or ('nombre_programa' in entities):
-                    if 'nombre_curso' in entities:
-                        record, msg1 = db_connection.get_curso(entities_dict['nombre_curso'])
-                        if record:
-                            row = record[0]
-                            value = row[0]
-                        else:
-                            return msg1
-                        response1 = answer_template(2)
-                        if 'nombre_programa' in entities:
-                            record, msg2 = db_connection.get_programa(entities_dict['nombre_programa'])
-                            if record:
-                                row = record[0]
-                                value = row[0]
-                            else:
-                                return msg2
-                            response2 = answer_template(3)
-                            response = response1 + ' Respecto a tu segunda consulta, ' + response2
-                            return response
-                        return response1
-                    else:
-                        record, msg2 = db_connection.get_programa(entities_dict['nombre_programa'])
-                        if record:
-                            row = record[0]
-                            value = row[0]
-                        else:
-                            return msg2
-                        response = answer_template(3)
-                        return response
-                else:
-                    response = answer_template(1)
-                    return response
-        elif rec_received[-1]['intent'] == 'informacion_precio':
-            if len(entities) == 0:
-                if ('nombre_curso_match' in rec_received[-1].keys()) or (
-                        'nombre_programa_match' in rec_received[-1].keys()):
-                    if 'nombre_curso_match' in rec_received[-1].keys():
-                        cost_rec, msg = db_connection.get_costo_curso(rec_received[-1]['nombre_curso_match'])
-                        del rec_received[-1]['id'], rec_received[-1]['intent']
-                        entities_dict = rec_received[-1]
-                        response1 = answer_template(8, entities_dict)
-                        if 'nombre_programa_match' in rec_received[-1].keys():
-                            cost_rec, msg = db_connection.get_costo_programa(rec_received[-1]['nombre_programa_match'])
-                            response2 = answer_template(9, entities_dict)
-                            response = response1 + ' Respecto a tu segunda consulta, ' + response2
-                            return response
-                        return response1
-                    else:
-                        cost_rec, msg = db_connection.get_costo_programa(rec_received[-1]['nombre_programa_match'])
-                        response1 = answer_template(9, entities_dict)
-                        return response1
-                elif ('nombre_curso_match' in rec_received[-2].keys()) or (
-                        'nombre_programa_match' in rec_received[-2].keys()):
-                    if 'nombre_curso_match' in rec_received[-2].keys():
-                        cost_rec, msg = db_connection.get_costo_curso(rec_received[-2]['nombre_curso_match'])
-                        del rec_received[-2]['id'], rec_received[-2]['intent']
-                        entities_dict = rec_received[-2]
-                        response1 = answer_template(8, entities_dict)
-                        if 'nombre_programa_match' in rec_received[-2].keys():
-                            cost_rec, msg = db_connection.get_costo_programa(rec_received[-2]['nombre_programa_match'])
-                            response2 = answer_template(9, entities_dict)
-                            response = response1 + ' Respecto a tu segunda consulta, ' + response2
-                            return response
-                        return response1
-                    else:
-                        cost_rec, msg = db_connection.get_costo_programa(rec_received[-2]['nombre_programa_match'])
-                        response1 = answer_template(9, entities_dict)
-                        return response1
-                else:
-                    response = answer_template(1)
-                    return response
-            else:
-                if ('nombre_curso_match' in entities) or ('nombre_programa_match' in entities):
-                    if 'nombre_curso_match' in entities:
-                        cost_rec, msg1 = db_connection.get_costo_curso(entities_dict['nombre_curso_match'])
-                        response1 = answer_template(8, entities_dict)
-                        if 'nombre_programa_match' in entities:
-                            cost_rec, msg2 = db_connection.get_costo_programa(entities_dict['nombre_programa_match'])
-                            response2 = answer_template(9, entities_dict)
-                            response = response1 + ' Respecto a tu segunda consulta, ' + response2
-                            return response
-                        return response1
-                    else:
-                        cost_rec, msg2 = db_connection.get_costo_programa(entities_dict['nombre_programa_match'])
-                        response = answer_template(9, entities_dict)
-                        return response
-                else:
-                    response = answer_template(14)
-                    return response
-        elif rec_received[-1]['intent'] == 'informacion_programacion':
-            if len(entities) == 0:
-                if ('nombre_curso_match' in rec_received[-1].keys()) or (
-                        'nombre_programa_match' in rec_received[-1].keys()):
-                    if 'nombre_curso_match' in rec_received[-1].keys():
-                        programacion_rec, estado_cur, reprog_cur, horario_cur, cur_en_prog = \
-                            db_connection.get_programacion(rec_received[-1]['nombre_curso_match'])
-                        del rec_received[-1]['id'], rec_received[-1]['intent']
-                        entities_dict = rec_received[-1]
-                        response1 = answer_template(10, entities_dict)
-                        if 'nombre_programa_match' in rec_received[-1].keys():
-                            fec_programa, nombre_curso, msg = db_connection.get_date_programa(
-                                rec_received[-1]['nombre_programa_match'])
-                            row = [nombre_curso, rec_received[-1]['nombre_programa_match']]
-                            response2 = answer_template(11)
-                            response = response1 + ' Respecto a tu segunda consulta, ' + response2
-                            return response
-                        return response1
-                elif ('nombre_curso_match' in rec_received[-2].keys()) or (
-                        'nombre_programa_match' in rec_received[-2].keys()):
-                    if 'nombre_curso_match' in rec_received[-2].keys():
-                        programacion_rec, estado_cur, reprog_cur, horario_cur, cur_en_prog = \
-                            db_connection.get_programacion(rec_received[-2]['nombre_curso_match'])
-                        del rec_received[-2]['id'], rec_received[-2]['intent']
-                        entities_dict = rec_received[-2]
-                        response1 = answer_template(10, entities_dict)
-                        if 'nombre_programa_match' in rec_received[-2].keys():
-                            fec_programa, nombre_curso, msg = db_connection.get_date_programa(
-                                rec_received[-2]['nombre_programa_match'])
-                            row = [nombre_curso, rec_received[-2]['nombre_programa_match']]
-                            response2 = answer_template(11)
-                            response = response1 + ' Respecto a tu segunda consulta, ' + response2
-                            return response
-                        return response1
-                    else:
-                        fec_programa, nombre_curso, msg = db_connection.get_date_programa(
-                            rec_received[-2]['nombre_programa_match'])
-                        row = [nombre_curso, rec_received[-2]['nombre_programa_match']]
-                        response = answer_template(11)
-                        return response
-                else:
-                    response = answer_template(1)
-                    return response
-            else:
-                if ('nombre_curso_match' in entities) or ('nombre_programa_match' in entities):
-                    if 'nombre_curso_match' in entities:
-                        programacion_rec, estado_cur, reprog_cur, horario_cur, cur_en_prog = \
-                            db_connection.get_programacion(entities_dict['nombre_curso_match'])
-                        response1 = answer_template(10, entities_dict)
-                        if 'nombre_programa_match' in entities:
-                            fec_programa, nombre_curso, msg = db_connection.get_date_programa(
-                                entities_dict['nombre_programa_match'])
-                            row = [nombre_curso, entities_dict['nombre_programa_match']]
-                            response2 = answer_template(11)
-                            response = response1 + ' Respecto a tu segunda consulta, ' + response2
-                            return response
-                        return response1
-                    else:
-                        fec_programa, nombre_curso, msg = db_connection.get_date_programa(
-                            entities_dict['nombre_programa_match'])
-                        row = [nombre_curso, entities_dict['nombre_programa_match']]
-                        response = answer_template(11)
-                        return response
-                else:
-                    response = answer_template(14)
-                    return response
-        else:
-            # Buscando la última intención diferente a "otra" en el registro .json
-            intents_chat = []
-            for i in data:
-                intents_chat.append(i['intent'])
-            for w in range(len(intents_chat), 0, -1):
-                if (intents_chat[w - 1] != 'otra') and (intents_chat[w - 1] != 'inicio_conversacion') \
-                        and (intents_chat[w - 1] != 'agradecimiento'):
-                    different_intent = intents_chat[w - 1]
-                    break
-                else:
-                    different_intent = '**'
-
-            if different_intent == 'informacion_general':
+        if 'intent' in rec_received:
+            if rec_received[-1]['intent'] == 'informacion_general':
                 if len(entities) == 0:
                     response = answer_template(14)
                     return response
@@ -559,7 +387,7 @@ def conversation_tree(db_connection, intent_dict, entities_dict, data):
                     else:
                         response = answer_template(1)
                         return response
-            elif different_intent == 'informacion_precio':
+            elif rec_received[-1]['intent'] == 'informacion_precio':
                 if len(entities) == 0:
                     if ('nombre_curso_match' in rec_received[-1].keys()) or (
                             'nombre_programa_match' in rec_received[-1].keys()):
@@ -569,8 +397,7 @@ def conversation_tree(db_connection, intent_dict, entities_dict, data):
                             entities_dict = rec_received[-1]
                             response1 = answer_template(8, entities_dict)
                             if 'nombre_programa_match' in rec_received[-1].keys():
-                                cost_rec, msg = db_connection.get_costo_programa(
-                                    rec_received[-1]['nombre_programa_match'])
+                                cost_rec, msg = db_connection.get_costo_programa(rec_received[-1]['nombre_programa_match'])
                                 response2 = answer_template(9, entities_dict)
                                 response = response1 + ' Respecto a tu segunda consulta, ' + response2
                                 return response
@@ -587,8 +414,7 @@ def conversation_tree(db_connection, intent_dict, entities_dict, data):
                             entities_dict = rec_received[-2]
                             response1 = answer_template(8, entities_dict)
                             if 'nombre_programa_match' in rec_received[-2].keys():
-                                cost_rec, msg = db_connection.get_costo_programa(
-                                    rec_received[-2]['nombre_programa_match'])
+                                cost_rec, msg = db_connection.get_costo_programa(rec_received[-2]['nombre_programa_match'])
                                 response2 = answer_template(9, entities_dict)
                                 response = response1 + ' Respecto a tu segunda consulta, ' + response2
                                 return response
@@ -606,8 +432,7 @@ def conversation_tree(db_connection, intent_dict, entities_dict, data):
                             cost_rec, msg1 = db_connection.get_costo_curso(entities_dict['nombre_curso_match'])
                             response1 = answer_template(8, entities_dict)
                             if 'nombre_programa_match' in entities:
-                                cost_rec, msg2 = db_connection.get_costo_programa(
-                                    entities_dict['nombre_programa_match'])
+                                cost_rec, msg2 = db_connection.get_costo_programa(entities_dict['nombre_programa_match'])
                                 response2 = answer_template(9, entities_dict)
                                 response = response1 + ' Respecto a tu segunda consulta, ' + response2
                                 return response
@@ -619,7 +444,7 @@ def conversation_tree(db_connection, intent_dict, entities_dict, data):
                     else:
                         response = answer_template(14)
                         return response
-            elif different_intent == 'informacion_programacion':
+            elif rec_received[-1]['intent'] == 'informacion_programacion':
                 if len(entities) == 0:
                     if ('nombre_curso_match' in rec_received[-1].keys()) or (
                             'nombre_programa_match' in rec_received[-1].keys()):
@@ -685,27 +510,210 @@ def conversation_tree(db_connection, intent_dict, entities_dict, data):
                     else:
                         response = answer_template(14)
                         return response
-            elif different_intent == 'informacion_pago':
-                response = answer_template(6)
-                return response
-            elif different_intent == 'informacion_inscripcion':
-                response = answer_template(7)
-                return response
-            elif different_intent == 'no_responder':
-                response = answer_template(12)
-                return response
-            elif different_intent == 'respuesta_estandar':
-                response = answer_template(13)
-                return response
-            elif different_intent == 'fuera_alcance':
-                response = answer_template(14)
-                return response
-            elif different_intent == 'continuacion':
-                response = answer_template(15)
-                return response
             else:
-                response = answer_template(14)
-                return response
+                if rec_received[-1]:
+                    # Buscando la última intención diferente a "otra" en el registro .json
+                    intents_chat = []
+                    for i in data:
+                        intents_chat.append(i['intent'])
+                    for w in range(len(intents_chat), 0, -1):
+                        if (intents_chat[w - 1] != 'otra') and (intents_chat[w - 1] != 'inicio_conversacion') \
+                                and (intents_chat[w - 1] != 'agradecimiento'):
+                            different_intent = intents_chat[w - 1]
+                            break
+                        else:
+                            different_intent = '**'
+
+                    if different_intent == 'informacion_general':
+                        if len(entities) == 0:
+                            response = answer_template(14)
+                            return response
+                        else:
+                            if ('nombre_curso' in entities) or ('nombre_programa' in entities):
+                                if 'nombre_curso' in entities:
+                                    record, msg1 = db_connection.get_curso(entities_dict['nombre_curso'])
+                                    if record:
+                                        row = record[0]
+                                        value = row[0]
+                                    else:
+                                        return msg1
+                                    response1 = answer_template(2)
+                                    if 'nombre_programa' in entities:
+                                        record, msg2 = db_connection.get_programa(entities_dict['nombre_programa'])
+                                        if record:
+                                            row = record[0]
+                                            value = row[0]
+                                        else:
+                                            return msg2
+                                        response2 = answer_template(3)
+                                        response = response1 + ' Respecto a tu segunda consulta, ' + response2
+                                        return response
+                                    return response1
+                                else:
+                                    record, msg2 = db_connection.get_programa(entities_dict['nombre_programa'])
+                                    if record:
+                                        row = record[0]
+                                        value = row[0]
+                                    else:
+                                        return msg2
+                                    response = answer_template(3)
+                                    return response
+                            else:
+                                response = answer_template(1)
+                                return response
+                    elif different_intent == 'informacion_precio':
+                        if len(entities) == 0:
+                            if ('nombre_curso_match' in rec_received[-1].keys()) or (
+                                    'nombre_programa_match' in rec_received[-1].keys()):
+                                if 'nombre_curso_match' in rec_received[-1].keys():
+                                    cost_rec, msg = db_connection.get_costo_curso(rec_received[-1]['nombre_curso_match'])
+                                    del rec_received[-1]['id'], rec_received[-1]['intent']
+                                    entities_dict = rec_received[-1]
+                                    response1 = answer_template(8, entities_dict)
+                                    if 'nombre_programa_match' in rec_received[-1].keys():
+                                        cost_rec, msg = db_connection.get_costo_programa(
+                                            rec_received[-1]['nombre_programa_match'])
+                                        response2 = answer_template(9, entities_dict)
+                                        response = response1 + ' Respecto a tu segunda consulta, ' + response2
+                                        return response
+                                    return response1
+                                else:
+                                    cost_rec, msg = db_connection.get_costo_programa(rec_received[-1]['nombre_programa_match'])
+                                    response1 = answer_template(9, entities_dict)
+                                    return response1
+                            elif ('nombre_curso_match' in rec_received[-2].keys()) or (
+                                    'nombre_programa_match' in rec_received[-2].keys()):
+                                if 'nombre_curso_match' in rec_received[-2].keys():
+                                    cost_rec, msg = db_connection.get_costo_curso(rec_received[-2]['nombre_curso_match'])
+                                    del rec_received[-2]['id'], rec_received[-2]['intent']
+                                    entities_dict = rec_received[-2]
+                                    response1 = answer_template(8, entities_dict)
+                                    if 'nombre_programa_match' in rec_received[-2].keys():
+                                        cost_rec, msg = db_connection.get_costo_programa(
+                                            rec_received[-2]['nombre_programa_match'])
+                                        response2 = answer_template(9, entities_dict)
+                                        response = response1 + ' Respecto a tu segunda consulta, ' + response2
+                                        return response
+                                    return response1
+                                else:
+                                    cost_rec, msg = db_connection.get_costo_programa(rec_received[-2]['nombre_programa_match'])
+                                    response1 = answer_template(9, entities_dict)
+                                    return response1
+                            else:
+                                response = answer_template(1)
+                                return response
+                        else:
+                            if ('nombre_curso_match' in entities) or ('nombre_programa_match' in entities):
+                                if 'nombre_curso_match' in entities:
+                                    cost_rec, msg1 = db_connection.get_costo_curso(entities_dict['nombre_curso_match'])
+                                    response1 = answer_template(8, entities_dict)
+                                    if 'nombre_programa_match' in entities:
+                                        cost_rec, msg2 = db_connection.get_costo_programa(
+                                            entities_dict['nombre_programa_match'])
+                                        response2 = answer_template(9, entities_dict)
+                                        response = response1 + ' Respecto a tu segunda consulta, ' + response2
+                                        return response
+                                    return response1
+                                else:
+                                    cost_rec, msg2 = db_connection.get_costo_programa(entities_dict['nombre_programa_match'])
+                                    response = answer_template(9, entities_dict)
+                                    return response
+                            else:
+                                response = answer_template(14)
+                                return response
+                    elif different_intent == 'informacion_programacion':
+                        if len(entities) == 0:
+                            if ('nombre_curso_match' in rec_received[-1].keys()) or (
+                                    'nombre_programa_match' in rec_received[-1].keys()):
+                                if 'nombre_curso_match' in rec_received[-1].keys():
+                                    programacion_rec, estado_cur, reprog_cur, horario_cur, cur_en_prog = \
+                                        db_connection.get_programacion(rec_received[-1]['nombre_curso_match'])
+                                    del rec_received[-1]['id'], rec_received[-1]['intent']
+                                    entities_dict = rec_received[-1]
+                                    response1 = answer_template(10, entities_dict)
+                                    if 'nombre_programa_match' in rec_received[-1].keys():
+                                        fec_programa, nombre_curso, msg = db_connection.get_date_programa(
+                                            rec_received[-1]['nombre_programa_match'])
+                                        row = [nombre_curso, rec_received[-1]['nombre_programa_match']]
+                                        response2 = answer_template(11)
+                                        response = response1 + ' Respecto a tu segunda consulta, ' + response2
+                                        return response
+                                    return response1
+                            elif ('nombre_curso_match' in rec_received[-2].keys()) or (
+                                    'nombre_programa_match' in rec_received[-2].keys()):
+                                if 'nombre_curso_match' in rec_received[-2].keys():
+                                    programacion_rec, estado_cur, reprog_cur, horario_cur, cur_en_prog = \
+                                        db_connection.get_programacion(rec_received[-2]['nombre_curso_match'])
+                                    del rec_received[-2]['id'], rec_received[-2]['intent']
+                                    entities_dict = rec_received[-2]
+                                    response1 = answer_template(10, entities_dict)
+                                    if 'nombre_programa_match' in rec_received[-2].keys():
+                                        fec_programa, nombre_curso, msg = db_connection.get_date_programa(
+                                            rec_received[-2]['nombre_programa_match'])
+                                        row = [nombre_curso, rec_received[-2]['nombre_programa_match']]
+                                        response2 = answer_template(11)
+                                        response = response1 + ' Respecto a tu segunda consulta, ' + response2
+                                        return response
+                                    return response1
+                                else:
+                                    fec_programa, nombre_curso, msg = db_connection.get_date_programa(
+                                        rec_received[-2]['nombre_programa_match'])
+                                    row = [nombre_curso, rec_received[-2]['nombre_programa_match']]
+                                    response = answer_template(11)
+                                    return response
+                            else:
+                                response = answer_template(1)
+                                return response
+                        else:
+                            if ('nombre_curso_match' in entities) or ('nombre_programa_match' in entities):
+                                if 'nombre_curso_match' in entities:
+                                    programacion_rec, estado_cur, reprog_cur, horario_cur, cur_en_prog = \
+                                        db_connection.get_programacion(entities_dict['nombre_curso_match'])
+                                    response1 = answer_template(10, entities_dict)
+                                    if 'nombre_programa_match' in entities:
+                                        fec_programa, nombre_curso, msg = db_connection.get_date_programa(
+                                            entities_dict['nombre_programa_match'])
+                                        row = [nombre_curso, entities_dict['nombre_programa_match']]
+                                        response2 = answer_template(11)
+                                        response = response1 + ' Respecto a tu segunda consulta, ' + response2
+                                        return response
+                                    return response1
+                                else:
+                                    fec_programa, nombre_curso, msg = db_connection.get_date_programa(
+                                        entities_dict['nombre_programa_match'])
+                                    row = [nombre_curso, entities_dict['nombre_programa_match']]
+                                    response = answer_template(11)
+                                    return response
+                            else:
+                                response = answer_template(14)
+                                return response
+                    elif different_intent == 'informacion_pago':
+                        response = answer_template(6)
+                        return response
+                    elif different_intent == 'informacion_inscripcion':
+                        response = answer_template(7)
+                        return response
+                    elif different_intent == 'no_responder':
+                        response = answer_template(12)
+                        return response
+                    elif different_intent == 'respuesta_estandar':
+                        response = answer_template(13)
+                        return response
+                    elif different_intent == 'fuera_alcance':
+                        response = answer_template(14)
+                        return response
+                    elif different_intent == 'continuacion':
+                        response = answer_template(15)
+                        return response
+                    else:
+                        response = answer_template(14)
+                        return response
+                else:
+                    response = answer_template(14)
+                    return response
+        else:
+            response = answer_template(14)
+            return response
 
 
 def answer_template(flg, entities_dict=None):
@@ -1075,7 +1083,7 @@ if __name__ == "__main__":
     # user_mssg = 'cual es el precio del programa de ESPECIALISTA CERTIFICDO EN LINUX'
     # user_mssg = 'y cuando inicia?'
     # user_mssg = 'Me podría brindar información acerca de diseño de dat center?'
-    user_mssg = 'hoaal'
+    user_mssg = 'hoal'
     # user_mssg = 'quiero informacion de los cursos'
     # user_mssg = 'diseño de dat center'
     # user_mssg = 'cual es su precio?'
