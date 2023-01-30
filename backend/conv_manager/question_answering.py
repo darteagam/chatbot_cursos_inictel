@@ -349,7 +349,7 @@ def conversation_tree(db_connection, intent_dict, entities_dict, data):
         return response
 
     elif intent == 'otra':
-        if rec_received['intent'] == 'informacion_general':
+        if rec_received[-1]['intent'] == 'informacion_general':
             if len(entities) == 0:
                 response = answer_template(1)
                 return response
@@ -386,7 +386,7 @@ def conversation_tree(db_connection, intent_dict, entities_dict, data):
                 else:
                     response = answer_template(1)
                     return response
-        elif rec_received['intent'] == 'informacion_precio':
+        elif rec_received[-1]['intent'] == 'informacion_precio':
             if len(entities) == 0:
                 if ('nombre_curso_match' in rec_received[-1].keys()) or (
                         'nombre_programa_match' in rec_received[-1].keys()):
@@ -443,7 +443,7 @@ def conversation_tree(db_connection, intent_dict, entities_dict, data):
                 else:
                     response = answer_template(14)
                     return response
-        elif rec_received['intent'] == 'informacion_programacion':
+        elif rec_received[-1]['intent'] == 'informacion_programacion':
             if len(entities) == 0:
                 if ('nombre_curso_match' in rec_received[-1].keys()) or (
                         'nombre_programa_match' in rec_received[-1].keys()):
@@ -521,7 +521,6 @@ def conversation_tree(db_connection, intent_dict, entities_dict, data):
                     break
                 else:
                     different_intent = '**'
-
 
             if different_intent == 'informacion_general':
                 if len(entities) == 0:
